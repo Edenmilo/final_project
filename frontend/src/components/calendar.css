@@ -1,0 +1,15 @@
+.calendar-container {
+    width: 80vw;
+    margin: 0;
+    height: 100px;
+}
+
+
+.calendar-container .fc-header-toolbar {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-container .fc-toolbar-chunk {
+    margin-bottom: 10px; /* Add margin between toolbar buttons */
+}
