@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize=require('../server')
+const sequelize = require('../server');
+const {Admin} = require('../Models/adminModel'); // Import the Admin model
 
-// Define the User model
 const User = sequelize.define('User', {
   username: { type: DataTypes.STRING, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false, unique: true },
@@ -25,14 +25,9 @@ const User = sequelize.define('User', {
   }
 });
 
-// Synchronize the model with the database
-(async () => {
-  try {
-    await sequelize.sync({ force: true });
-    console.log('User model synchronized with the database');
-  } catch (error) {
-    console.error('Error synchronizing User model:', error);
-  }
-})();
+// Define the association between User and Admin
+User.belongsTo(Admin, { as: 'createdBy', foreignKey: 'createdById' });
+
+
 
 module.exports = User;
