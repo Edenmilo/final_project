@@ -1,9 +1,9 @@
 const {Sequelize}= require("sequelize")
-const port = 4000
+const port = 3306
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: './database.sqlite',
+    storage: './Database.sqlite',
   });
   module.exports=sequelize;
   sequelize.sync()
