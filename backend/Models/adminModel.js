@@ -1,21 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../server');
+const User = require('./userModel');
 
-const Event = sequelize.define('event', {
-    title: DataTypes.STRING,
-    startTime: DataTypes.DATE,
-    finishTime: DataTypes.DATE,
-    studentsLimit: DataTypes.INTEGER,
-    registeredUsers: {
-      type:DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: []
-    },
-    summary: DataTypes.TEXT
-  });
-  
-
-const Admin = sequelize.define('admin', {
+const Admin = sequelize.define('Admin', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -37,7 +24,22 @@ const Admin = sequelize.define('admin', {
 
 });
 
-// Define association
-Admin.hasMany(Event);
+const Event = sequelize.define('Event', {
+  title: DataTypes.STRING,
+  startTime: DataTypes.DATE,
+  finishTime: DataTypes.DATE,
+  studentsLimit: DataTypes.INTEGER,
+  summary: DataTypes.TEXT
+});
+const EventUser = sequelize.define('EventUser', {
+  UserId: DataTypes.INTEGER,
+  EventId: DataTypes.INTEGER
+})
 
-module.exports = { Admin, Event };
+
+Admin.hasMany(Event);
+Event.belongsToMany(User, { through: 'EventUser' });
+User.belongsToMany(Event, { through: 'EventUser' });
+User.belongsTo(Admin);
+
+module.exports = { Admin, Event, EventUser };;

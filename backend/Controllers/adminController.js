@@ -1,12 +1,10 @@
-const { Admin } = require("../Models/adminModel");
+const { Admin, Event } = require("../Models/adminModel");
 const User=require('../Models/userModel')
-const bcrypt=require('bcrypt')
-const jwt=require('jsonwebtoken')
 const createAdmin = async (req, res) => {
   try {
     const { username, password, phoneNumber,} = req.body;
 
-    // Create the admin
+  
     const admin = await Admin.create({
       username,
       password,
@@ -19,6 +17,70 @@ const createAdmin = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+ const login = async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        const admin = await Admin.findOne({ where: { username } });
+
+        if (!admin) {
+            return res.status(404).json({ error: 'Admin not found' });
+        }
+
+        if (admin.password !== password) {
+            return res.status(401).json({ error: 'Incorrect password' });
+        }
+
+        return res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+        console.error('Error during admin login:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+const createUser = async (req, res) => {
+  try {
+    const { adminId } = req.params;
+    const admin = await Admin.findByPk(adminId);
+    const { 
+          username,
+          fullName,
+          email,
+          password,
+          phoneNumber,
+          height,
+          weight,
+          age,
+          goalWeight,
+          bodyFat,
+      } = req.body;
+
+  
+      
+      if (!admin) {
+          return res.status(404).json({ error: 'Admin not found' });
+      }
+      const user = await User.create({
+          username,
+          fullName,
+          email,
+          password,
+          phoneNumber,
+          height,
+          weight,
+          age,
+          goalWeight,
+          bodyFat,
+          AdminId: admin.id 
+      });
+
+      res.status(201).json({ message: 'User created successfully', user });
+      } catch (error) {
+      console.error('Error signing up user:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
 
 const createEvent = async (req, res) => {
     try {
@@ -36,7 +98,6 @@ const createEvent = async (req, res) => {
         startTime,
         finishTime,
         studentsLimit,
-        registeredUsers,
         summary
       });
   
@@ -46,85 +107,140 @@ const createEvent = async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
-  const generateToken = (admin) => {
-    return jwt.sign({ id: admin.id, username: admin.username }, 'your_secret_key', { expiresIn: '24h' });
-  };
   
-  const login = async (req, res) => {
+  const getUsersByAdminId = async (req, res) => {
     try {
-      const { username, password } = req.body;
+      const { adminId } = req.params;
   
-      // Check if the user is an admin
-      let user = await Admin.findOne({ where: { username } });
-      
-      // If not an admin, check if the user is a regular user
-      if (!user) {
-        user = await User.findOne({ where: { username } });
+      const admin = await Admin.findByPk(adminId);
+  
+      if (!admin) {
+        return res.status(404).json({ error: 'Admin not found' });
       }
   
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
+      const users = await User.findAll({ where: { AdminId: adminId } });
   
-      // Compare passwords
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      
-      if (!isPasswordValid) {
-        return res.status(401).json({ message: 'Invalid password' });
-      }
-  
-      // Generate token
-      const token = generateToken(user);
-  
-      res.json({ token });
+      res.status(200).json(users);
     } catch (error) {
-      console.error('Error logging in:', error);
+      console.error('Error fetching users:', error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
   
-  const createUser = async (req, res) => {
+  const getAdminById = async (req, res) => {
     try {
-      const { 
-        username,
-        email,
-        password,
-        phoneNumber,
-        height,
-        weight,
-        age,
-        goalWeight,
-        bodyFat
-      } = req.body;
+      const { adminId } = req.params;
   
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const admin = await Admin.findByPk(adminId);
   
-      // Create the user
-      const user = await User.create({ 
-        username,
-        email, 
-        password: hashedPassword, 
-        phoneNumber,
-        height,
-        weight,
-        age,
-        goalWeight,
-        bodyFat
+      if (!admin) {
+        return res.status(404).json({ error: 'Admin not found' });
+      }
+  
+      res.status(200).json(admin);
+    } catch (error) {
+      console.error('Error fetching admin:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+  const getEventsByAdminId = async (req, res) => {
+    try {
+      const { adminId } = req.params;
+  
+      const admin = await Admin.findByPk(adminId);
+  
+      if (!admin) {
+        return res.status(404).json({ error: 'Admin not found' });
+      }
+  
+      const events = await admin.getEvents();
+  
+      res.status(200).json(events);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+
+  const getEventRegisteredUsers = async (req, res) => {
+    try {
+        const { eventId } = req.params;
+
+        const event = await Event.findByPk(eventId);
+        if (!event) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        const users = await User.findAll({
+            include: [
+                {
+                    model: Event,
+                    through: { where: { EventId: eventId } },
+                    attributes: [] 
+                }
+            ]
+        });
+        const registeredUsers = users.map(user => user.username);
+
+        res.status(200).json({ eventTitle: event.title, registeredUsers });
+    } catch (error) {
+        console.error('Error fetching event registered users:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+const updateUser = async (req, res) => {
+  try {
+      const { userId } = req.params;
+
+      const user = await User.findByPk(userId);
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      const { username, email, phoneNumber, height, weight, age, goalWeight, bodyFat, menu } = req.body;
+      await user.update({
+          username,
+          email,
+          phoneNumber,
+          height,
+          weight,
+          age,
+          goalWeight,
+          bodyFat,
+          menu
       });
-  
-      const token = generateToken(user);
-  
-      res.status(201).json({ token });
-    } catch (error) {
-      console.error('Error signing up user:', error);
+
+      res.status(200).json({ message: 'User updated successfully' });
+  } catch (error) {
+      console.error('Error updating user:', error);
       res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
-  
+  }
+};
+const deleteUser = async (req, res) => {
+  try {
+      const { userId } = req.params;
+
+      const user = await User.findByPk(userId);
+
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      await user.destroy();
+
+      res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
   const logout = (req, res) => {
-    // You may implement logout logic here (e.g., token invalidation)
+
     res.json({ message: 'Logout successful' });
   };
 
-module.exports = { createAdmin, createEvent, login,  createUser, logout  };
+module.exports = { createAdmin, createEvent, login,  createUser,getUsersByAdminId, getAdminById,getEventsByAdminId, logout,getEventRegisteredUsers,updateUser,deleteUser  };
