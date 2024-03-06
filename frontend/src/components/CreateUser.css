@@ -1,0 +1,14 @@
+
+
+
+  .PhoneInputCountryIconImg{
+
+    height: 20px; 
+    width: auto; 
+  }
+
+.PhoneInputCountry{                 
+  display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
