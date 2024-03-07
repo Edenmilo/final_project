@@ -133,6 +133,30 @@ const createEvent = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+const getEventById = async (req, res) => {
+  try {
+      const { adminId, eventId } = req.params;
+
+      const admin = await Admin.findByPk(adminId);
+
+      if (!admin) {
+          return res.status(404).json({ message: 'Admin not found' });
+      }
+
+      const event = await admin.getEvents({
+          where: { id: eventId }
+      });
+
+      if (!event || event.length === 0) {
+          return res.status(404).json({ message: 'Event not found' });
+      }
+
+      res.status(200).json(event[0]);
+  } catch (error) {
+      console.error('Error getting event by ID:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
   const getUsersByAdminId = async (req, res) => {
     try {
@@ -311,6 +335,7 @@ module.exports = {
   createAdmin,
   createEvent, 
   deleteEvent,
+  getEventById,
   login,  
   createUser,
   getUsersByAdminId,
