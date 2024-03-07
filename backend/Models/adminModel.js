@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../server');
 const User = require('./userModel');
-
+const Social=require('./socialModel')
 const Admin = sequelize.define('Admin', {
   id: {
     type: DataTypes.INTEGER,
@@ -40,6 +40,7 @@ const EventUser = sequelize.define('EventUser', {
 Admin.hasMany(Event);
 Event.belongsToMany(User, { through: 'EventUser' });
 User.belongsToMany(Event, { through: 'EventUser' });
-User.belongsTo(Admin);
-
+User.belongsTo(Admin,{foreignKey:'AdminId'});
+Admin.hasMany(Social)
+Social.belongsTo(Admin, { foreignKey: 'createdBy' });
 module.exports = { Admin, Event, EventUser };;
