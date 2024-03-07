@@ -1,49 +1,63 @@
 const { Admin, Event } = require("../Models/adminModel");
 const User=require('../Models/userModel')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const createAdmin = async (req, res) => {
-  try {
-    const { username, password, phoneNumber,} = req.body;
-
+    try {
+      const { username, password, phoneNumber } = req.body;
   
-    const admin = await Admin.create({
-      username,
-      password,
-      phoneNumber,
-    });
-
-    res.status(201).json(admin);
-  } catch (error) {
-    console.error('Error creating admin:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-};
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Create the admin with hashed password
+      const admin = await Admin.create({
+        username,
+        password: hashedPassword,
+        phoneNumber,
+      });
+  
+      res.status(201).json(admin);
+    } catch (error) {
+      console.error('Error creating admin:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
 
 const login = async (req, res) => {
     const { username, password } = req.body;
-//add bcrypt
+
     try {
+        // Find admin by username
         const admin = await Admin.findOne({ where: { username } });
 
         if (!admin) {
             return res.status(404).json({ error: 'Admin not found' });
-        }else if (admin.password !== password) {
+        }
+
+        // Compare passwords
+        const isPasswordValid = await bcrypt.compare(password, admin.password);
+
+        if (!isPasswordValid) {
             return res.status(401).json({ error: 'Incorrect password' });
-        } else {
-          const token = jwt.sign(
-            { _id: admin._id },
+        }
+
+        // Generate token
+        const token = jwt.sign(
+            { _id: admin.id }, // You might want to use a different field for the admin's ID
             process.env.SECRET_JWT_KEY,
-            {
-                expiresIn: "48h",
-            }
+            { expiresIn: '48h' }
         );
-            res.cookie("token", token, {
-                httpOnly: true,
-                //milisec 48hors
-                maxAge: 864000,
-                sameSite: "strict",
-            });
-            return res.status(200).json({ admin : admin, message: 'Login successful' });
-      }
+
+        // Set token in cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 48, // 48 hours
+            sameSite: 'strict',
+        });
+
+        // Respond with admin details and success message
+        return res.status(200).json({ admin:admin, message: 'Login successful' });
     } catch (error) {
         console.error('Error during admin login:', error);
         return res.status(500).json({ error: 'Internal server error' });
@@ -107,9 +121,6 @@ const verifyToken = async (req, res, next) => {
           .json({success:false,type:'error', message: "Unauthorized: No token provided" });
   }
   try {
-    //create .env 
-    //import env
-    //SECRET_JWT_KEY = adifjhsjd
       const decodedToken = jwt.verify(token, process.env.SECRET_JWT_KEY);
       const admin = await Admin.findByPK(decodedToken._id);
       req.admin = admin;
@@ -384,4 +395,5 @@ module.exports = {
   getEventRegisteredUsers,
   updateUser,
   deleteUser,
-  getUserInfo  };
+  getUserInfo  
+};

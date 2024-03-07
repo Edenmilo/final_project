@@ -7,6 +7,9 @@ const sequelize = new Sequelize({
 });
 module.exports = sequelize;
 sequelize.sync()
+
+const dotenv = require("dotenv");
+dotenv.config({ path: "./.env" });
 //   (async () => {
 //     try {
 //       await sequelize.sync({ force: true });
