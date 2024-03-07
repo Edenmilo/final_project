@@ -1,10 +1,10 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
+import { useNavigate } from "react-router-dom";
 
 function Workouts() {
-  // will get the exercise from the Social.jsx as parameters
-  // make function that check the workout.workoutName match to witch exercise and display him only
-
   const exercise = [
     {
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
@@ -13,7 +13,7 @@ function Workouts() {
       level: "4",
       expertise: "High Intensity Training",
       experience: "5 years",
-      type: "chest",
+      type: "Chest",
     },
     {
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
@@ -22,7 +22,7 @@ function Workouts() {
       level: "5",
       expertise: "Functional Strength",
       experience: "4 years",
-      type: "legs",
+      type: "Legs",
     },
     {
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
@@ -31,7 +31,7 @@ function Workouts() {
       level: "5",
       expertise: "Functional Strength h",
       experience: "4 years",
-      type: "lats",
+      type: "Lats",
     },
     {
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
@@ -40,7 +40,7 @@ function Workouts() {
       level: "5",
       expertise: "Functional",
       experience: "4 years",
-      type: "chest",
+      type: "Chest",
     },
     {
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
@@ -49,9 +49,19 @@ function Workouts() {
       level: "5",
       expertise: "Functional",
       experience: "4 years",
-      type: "chest",
+      type: "Chest",
     },
   ];
+
+  const { userData } = useContext(AppContext);
+  console.log(userData);
+  const navigate = useNavigate();
+  const selectedWorkoutType = userData.workoutType || "";
+
+  const filteredExercises = exercise.filter(
+    (ex) => ex.type === selectedWorkoutType
+  );
+
   ////////////////////////////////////////////////////////////////////////////////////////
   const ExerciseCard = ({ src, name, level, expertise, experience, alt }) => (
     <div className="exercise-card bg-gray-50 flex items-center justify-evenly gap-[1rem] w-[95%] p-[3px] mt-[3vh] rounded-[10px] phone:w-[80%]">
@@ -99,8 +109,11 @@ function Workouts() {
         <div className="workout-card w-[30vw] h-[90vh] overflow-y-auto bg-black-50 phone:w-screen phone:h-screen ">
           <div className="workout-box flex flex-col h-full  w-full">
             <header className="flex justify-between items-center text-[1.2em] p-[5px] ml-[5px] text-center text-white phone:text-[2.5rem]">
-              <button>
-                {" "}
+              <button
+                onClick={() => {
+                  navigate("/social");
+                }}
+              >
                 <ArrowBackIosIcon sx={{ fontSize: 15 }} />
               </button>
               <h2 className="flex-auto self-start text-neon-50">
@@ -108,7 +121,10 @@ function Workouts() {
               </h2>
             </header>
             <section className="workout-section  flex flex-col items-center justify-center phone:w-screen phone:h-full phone:justify-start  ">
-              {exercise.map((exercise, index) => (
+              {/* {exercise.map((exercise, index) => (
+                <ExerciseCard key={index} {...exercise} />
+              ))} */}
+              {filteredExercises.map((exercise, index) => (
                 <ExerciseCard key={index} {...exercise} />
               ))}
             </section>

@@ -14,10 +14,17 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.12",
     "@mui/material": "^5.15.12",
+    "react-form-hook": "^0.0.1",
+    "react-hook-form": "^7.51.0",
+    "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/list": "^6.1.11",
+    "@fullcalendar/react": "^6.1.11",
+    "@fullcalendar/timegrid": "^6.1.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-form-hook": "^0.0.1",
-    "react-hook-form": "^7.51.0"
+    "react-modal": "^3.16.1",
+    "react-phone-number-input": "^3.3.9",
+    "react-router-dom": "^6.22.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
