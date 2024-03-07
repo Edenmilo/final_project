@@ -54,9 +54,10 @@ function CreatUser({ users }) {
           <PhoneInput
             placeholder="Enter phone number"
             value={phoneNumber}
+            limitMaxLength= "10"
             onChange={setPhoneNumber}
           />
-          <p>Phone Number: {phoneNumber && formatPhoneNumber(phoneNumber)}</p>{" "}
+          <p>Phone Number: {phoneNumber && formatPhoneNumber(phoneNumber)}</p>
           //dont forget the function for the front!!!
           <hr />
           <hr />
