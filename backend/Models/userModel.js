@@ -9,8 +9,9 @@ const User = sequelize.define('User', {
   phoneNumber: { type: DataTypes.STRING },
   height: { type: DataTypes.FLOAT },
   weight: {
-    type: DataTypes.ARRAY(DataTypes.FLOAT),
+    type: DataTypes.JSON, 
     allowNull: true,
+    defaultValue: [] 
   },  age: { type: DataTypes.INTEGER },
   goalWeight: { type: DataTypes.FLOAT },
   bodyFat: { type: DataTypes.FLOAT, allowNull: true },
