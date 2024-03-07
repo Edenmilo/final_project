@@ -17,30 +17,48 @@ const createAdmin = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
- const login = async (req, res) => {
-    const { username, password } = req.body;
 
+const login = async (req, res) => {
+    const { username, password } = req.body;
+//add bcrypt
     try {
         const admin = await Admin.findOne({ where: { username } });
 
         if (!admin) {
             return res.status(404).json({ error: 'Admin not found' });
-        }
-
-        if (admin.password !== password) {
+        }else if (admin.password !== password) {
             return res.status(401).json({ error: 'Incorrect password' });
-        }
-
-        return res.status(200).json({ message: 'Login successful' });
+        } else {
+          const token = jwt.sign(
+            { _id: admin._id },
+            process.env.SECRET_JWT_KEY,
+            {
+                expiresIn: "48h",
+            }
+        );
+            res.cookie("token", token, {
+                httpOnly: true,
+                //milisec 48hors
+                maxAge: 864000,
+                sameSite: "strict",
+            });
+            return res.status(200).json({ admin : admin, message: 'Login successful' });
+      }
     } catch (error) {
         console.error('Error during admin login:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+//FrontEnd:
+// const response = axios(/login)
+//resonse.response.admin 
+
 const createUser = async (req, res) => {
   try {
-    const { adminId } = req.params;
-    const admin = await Admin.findByPk(adminId);
+    // const { adminId } = req.params;
+    // const admin = await Admin.findByPk(adminId);
+    const admin = req.admin;
     const { 
           username,
           fullName,
@@ -80,6 +98,26 @@ const createUser = async (req, res) => {
   }
 };
 
+
+const verifyToken = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+      return res
+          .status(401)
+          .json({success:false,type:'error', message: "Unauthorized: No token provided" });
+  }
+  try {
+    //create .env 
+    //import env
+    //SECRET_JWT_KEY = adifjhsjd
+      const decodedToken = jwt.verify(token, process.env.SECRET_JWT_KEY);
+      const admin = await Admin.findByPK(decodedToken._id);
+      req.admin = admin;
+      next();
+  } catch (error) {
+      return res.status(401).json({success:false,type:'error', message: "Unauthorized: Invalid token" });
+  }
+};
 
 
 const createEvent = async (req, res) => {
@@ -336,7 +374,8 @@ module.exports = {
   createEvent, 
   deleteEvent,
   getEventById,
-  login,  
+  login,
+  verifyToken,  
   createUser,
   getUsersByAdminId,
   getAdminById,

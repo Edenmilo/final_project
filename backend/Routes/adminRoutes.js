@@ -6,9 +6,9 @@ router.post('/login', login);
 router.post('/logout', logout);
 
 router.post('/', createAdmin);
-router.get('/:adminId/getinfo', getAdminById)
+router.get('/:adminId/getinfo', getAdminById)//dont need
 
-router.post('/:adminId/createuser',  createUser);
+router.post('/:adminId/createuser',  createUser);// user route
 router.put('/:adminId/:userId/updateuser', updateUser)
 router.delete('/:adminId/deleteuser', deleteUser)
 router.get('/:adminId/getusers', getUsersByAdminId)
