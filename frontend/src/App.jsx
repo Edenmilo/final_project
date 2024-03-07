@@ -1,10 +1,17 @@
 import "./App.css";
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
+// import Social from "./pages/Social";
+import Workouts from "./pages/Workouts";
+import { ContextProvider } from "./AppContext";
 
 function App() {
   return (
     <>
-      <Login />
+      <ContextProvider>
+        {/* <Social /> */}
+        {/* <Login /> */}
+        <Workouts />
+      </ContextProvider>
     </>
   );
 }

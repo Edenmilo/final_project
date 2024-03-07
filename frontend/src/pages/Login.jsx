@@ -1,42 +1,72 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    reset();
+  };
+  /// api call from the backed to check is this user exist
+
   return (
     <>
       <div className="login-container bg-black text-white min-h-screen flex items-center">
-        <div className="login-card   mx-auto h-[90vh] w-[40vw] bg-black-50 rounded-lg bg-[url('https://img.freepik.com/premium-photo/gorgeous-brunette-female-with-long-braids-doing-squats-using-barbell-side-view_944525-4104.jpg')] bg-cover bg-none-reapet">
-          <h2 className=" login-header text-3xl font-bold mb-4 ">
-            WELCOME BACK
-          </h2>
-          <form className="login-box flex flex-col items-center bg-black-50">
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium">
-                Email
-              </label>
+        <div className="login-card flex flex-col justify-end   mx-auto h-[90vh] w-[30vw] bg-black-50 rounded-[20px] bg-[url('https://img.freepik.com/premium-photo/gorgeous-brunette-female-with-long-braids-doing-squats-using-barbell-side-view_944525-4104.jpg')] bg-cover bg-center phone:w-[100vw] phone:h-[100vh]">
+          <div className="login-header-box w-full h-full flex items-center justify-center ">
+            <h2 className=" login-header text-[2.5rem] font-bold mt-[10vh] absolute  ">
+              WELCOME BACK
+            </h2>
+          </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="login-box flex flex-col items-center bg-black-50 h-[80vh] rounded-b-[20px]"
+          >
+            <div className="login-inputs flex flex-col items-center justify-center  w-[20vw] h-full relative phone:w-[85%] phone:h-full  ">
               <input
                 type="email"
                 id="email"
                 name="email"
-                className="mt-1 p-2 w-full border rounded-md"
+                className="mt-1 p-2 w-full border-b  bg-black-50 text-white-50"
+                placeholder="Email"
+                {...register("email", { minLength: 5, required: true })}
               />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-sm font-medium">
-                Password
-              </label>
+              {errors.email && (
+                <span className="error-massage text-red-50">
+                  email is require
+                </span>
+              )}
+
               <input
                 type="password"
                 id="password"
                 name="password"
-                className="mt-1 p-2 w-full border rounded-md"
+                className="mt-1 p-2 w-full border-b    bg-black-50 text-white-50"
+                placeholder="Password"
+                {...register("password", {
+                  minLength: 8,
+                  maxLength: 14,
+                  required: true,
+                })}
               />
+              {errors.password && (
+                <span className="error-massage text-red-50">
+                  password is require
+                </span>
+              )}
+              <button
+                type="submit"
+                className="bg-neon-50 mt-[4vh]  px-4 py-2 rounded-xl text-black-50"
+              >
+                Login
+              </button>
             </div>
-            <button
-              type="submit"
-              className="bg-neon-50 hover:bg-green-600 px-4 py-2 rounded-md text-black-50"
-            >
-              Login
-            </button>
           </form>
         </div>
       </div>
