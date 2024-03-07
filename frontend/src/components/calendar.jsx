@@ -1,13 +1,11 @@
-
 import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-
 import "./calendar.css";
 
-function Calendar() {
+function Calendar() { // dont forget to get event by id from the DB
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -15,6 +13,23 @@ function Calendar() {
   const [summary, setSummary] = useState("");
   const [events, setEvents] = useState([]);
 
+  function renderEventContent(eventInfo) {
+    return (
+      <>
+      <div>
+        <b>{eventInfo.timeText}</b>
+        <i>{eventInfo.event.title}</i>
+        <p>{eventInfo.event.extendedProps.summary}</p>
+        <button on onClick={() => deleteEvent(eventInfo.event.title)}>delete</button>
+        </div>
+      </>
+    ); 
+
+  }
+  const deleteEvent = (eventTitle) =>{
+    const updatedEvents = events.filter((event) => event.id !== eventTitle);
+    setEvents(updatedEvents);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -25,9 +40,9 @@ function Calendar() {
       studentsLimit: studentsLimit,
       summary: summary,
     };
-//post request for new event
-//get request for all events
-    setEvents([...events, newEvent]);//wont be used after database connected becaise i will get the evenst from the DB.
+    //post request for new event
+    //get request for all events
+    setEvents([...events, newEvent]); //wont be used after database connected becaise i will get the evenst from the DB.
 
     setTitle("");
     setStartDate("");
@@ -49,9 +64,10 @@ function Calendar() {
             headerToolbar={{
               start: "prev,next today",
               center:
-                "dayGridMonth,timeGridWeek,timeGridDay,listWeek,listDay,listMonth",
+                "dayGridMonth,timeGridWeek,timeGridDay,listWeek,listMonth,listDay",
               end: "title",
             }}
+            eventContent={renderEventContent}
           />
         </div>
 
@@ -67,21 +83,21 @@ function Calendar() {
             <hr />
             <label>Workout Starts At:</label>
             <input
-              type="datetime-local" 
+              type="datetime-local"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
             <hr />
             <label>Workout Ends At:</label>
             <input
-              type="datetime-local" 
+              type="datetime-local"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
             <hr />
             <label>Maximum students:</label>
             <input
-              type="number" 
+              type="number"
               value={studentsLimit}
               onChange={(e) => setStudentsLimit(e.target.value)}
             />
