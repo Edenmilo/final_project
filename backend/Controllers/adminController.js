@@ -107,7 +107,33 @@ const createEvent = async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
-  
+  const deleteEvent = async (req, res) => {
+    try {
+        const { adminId, eventId } = req.params;
+
+        const admin = await Admin.findByPk(adminId);
+
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+
+        const event = await admin.getEvents({
+            where: { id: eventId }
+        });
+
+        if (!event || event.length === 0) {
+            return res.status(404).json({ message: 'Event not found' });
+        }
+
+        await event[0].destroy();
+
+        res.status(204).json({ message: 'Event deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting event:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
   const getUsersByAdminId = async (req, res) => {
     try {
       const { adminId } = req.params;
@@ -281,4 +307,17 @@ const deleteUser = async (req, res) => {
     res.json({ message: 'Logout successful' });
   };
 
-module.exports = { createAdmin, createEvent, login,  createUser,getUsersByAdminId, getAdminById,getEventsByAdminId, logout,getEventRegisteredUsers,updateUser,deleteUser, getUserInfo  };
+module.exports = { 
+  createAdmin,
+  createEvent, 
+  deleteEvent,
+  login,  
+  createUser,
+  getUsersByAdminId,
+  getAdminById,
+  getEventsByAdminId,
+  logout,
+  getEventRegisteredUsers,
+  updateUser,
+  deleteUser,
+  getUserInfo  };
