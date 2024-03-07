@@ -1,5 +1,5 @@
 const express = require('express');
-const { createAdmin, createEvent, login,  createUser, logout, getUsersByAdminId, getAdminById, getEventsByAdminId, getEventRegisteredUsers, updateUser, deleteUser, getUserInfo} = require('../Controllers/adminController');
+const { createAdmin, createEvent, login,  createUser, logout, getUsersByAdminId, getAdminById, getEventsByAdminId, getEventRegisteredUsers, updateUser, deleteUser, getUserInfo, deleteEvent} = require('../Controllers/adminController');
 const router = express.Router();
 
 
@@ -8,6 +8,7 @@ router.post('/:adminId/createuser',  createUser);
 router.post('/logout', logout);
 router.post('/', createAdmin);
 router.post('/:adminId/create',createEvent)
+router.delete('/:adminId/:eventId/deleteevent', deleteEvent)
 router.get('/:adminId/getusers', getUsersByAdminId)
 router.get('/:adminId/:userId/getuser', getUserInfo)
 router.get('/:adminId/getinfo', getAdminById)
