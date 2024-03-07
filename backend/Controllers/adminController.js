@@ -190,35 +190,73 @@ const createEvent = async (req, res) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+const getUserInfo = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    const user = await User.findByPk(userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const lastWeight = user.weight && user.weight.length > 0 ? user.weight[user.weight.length - 1] : null;
+
+    const userInfo = {
+      username: user.username,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      height: user.height,
+      age: user.age,
+      goalWeight: user.goalWeight,
+      bodyFat: user.bodyFat,
+      currentWeight: lastWeight,
+      allWeights: user.weight
+    };
+
+    res.status(200).json(userInfo);
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 const updateUser = async (req, res) => {
   try {
-      const { userId } = req.params;
+    const { userId } = req.params;
+    const user = await User.findByPk(userId);
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-      const user = await User.findByPk(userId);
-      if (!user) {
-          return res.status(404).json({ error: 'User not found' });
-      }
+    const { username, email, phoneNumber, height, age, goalWeight, bodyFat, menu } = req.body;
+    let { weight } = req.body;
 
-      const { username, email, phoneNumber, height, weight, age, goalWeight, bodyFat, menu } = req.body;
-      await user.update({
-          username,
-          email,
-          phoneNumber,
-          height,
-          weight,
-          age,
-          goalWeight,
-          bodyFat,
-          menu
-      });
+    if (weight) {
+      const currentWeight = user.weight || [];
+      weight = [...currentWeight, weight];
+    }
 
-      res.status(200).json({ message: 'User updated successfully' });
+    await user.update({
+      username,
+      email,
+      phoneNumber,
+      height,
+      weight,
+      age,
+      goalWeight,
+      bodyFat,
+      menu
+    });
+
+    res.status(200).json({ message: 'User updated successfully' });
   } catch (error) {
-      console.error('Error updating user:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error updating user:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 const deleteUser = async (req, res) => {
   try {
       const { userId } = req.params;
@@ -243,4 +281,4 @@ const deleteUser = async (req, res) => {
     res.json({ message: 'Logout successful' });
   };
 
-module.exports = { createAdmin, createEvent, login,  createUser,getUsersByAdminId, getAdminById,getEventsByAdminId, logout,getEventRegisteredUsers,updateUser,deleteUser  };
+module.exports = { createAdmin, createEvent, login,  createUser,getUsersByAdminId, getAdminById,getEventsByAdminId, logout,getEventRegisteredUsers,updateUser,deleteUser, getUserInfo  };
