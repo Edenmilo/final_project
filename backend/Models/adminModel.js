@@ -29,7 +29,8 @@ const Event = sequelize.define('Event', {
   startTime: DataTypes.DATE,
   finishTime: DataTypes.DATE,
   studentsLimit: DataTypes.INTEGER,
-  summary: DataTypes.TEXT
+  summary: DataTypes.TEXT,
+  createdBy: DataTypes.INTEGER,
 });
 const EventUser = sequelize.define('EventUser', {
   UserId: DataTypes.INTEGER,
