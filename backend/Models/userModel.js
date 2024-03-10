@@ -25,8 +25,7 @@ const User = sequelize.define("User", {
     set(value) {
       this.setDataValue("menu", JSON.stringify(value));
     },
-  },
-  adminId: { type: DataTypes.INTEGER, allowNull: false },
+  }
 });
 
 module.exports = User;
