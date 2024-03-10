@@ -3,62 +3,6 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 function Login() {
-  /////////////////////////////
-
-  const adminSchema = {
-    admin1: {
-      id: 1,
-      useName: "artiom",
-      email: "artiom@artiom",
-      password: "asasasas",
-      phoneNumber: "055855346",
-      users: {
-        user1: {
-          id: 3,
-          useName: "adi",
-          email: "qqq@qqq",
-          password: "qqqqqqqq",
-          phoneNumber: "0558599999",
-        },
-        user2: {
-          id: 4,
-          useName: "DUDU",
-          email: "qq@qq",
-          password: "11111111",
-          phoneNumber: "0666666666",
-        },
-      },
-      adminId: 12,
-    },
-    // Admin2
-    admin2: {
-      id: 2,
-      useName: "Moti",
-      email: "artiom1@1artiom",
-      password: "qwqwqwqw",
-      phoneNumber: "0555555555",
-      adminId: 33,
-      users: {
-        user1: {
-          id: 3,
-          useName: "adi",
-          email: "bb@bb",
-          password: "qqqqqqqq",
-          phoneNumber: "0558599999",
-        },
-        user2: {
-          id: 4,
-          useName: "DUDU",
-          email: "bbb@bbb",
-          password: "11111111",
-          phoneNumber: "0666666666",
-        },
-      },
-    },
-  };
-
-  /////////////////////////////
-
   const { loginData, setLoginData } = useContext(AppContext);
 
   const {
@@ -72,31 +16,35 @@ function Login() {
 
   const onSubmit = (data) => {
     const { email, password } = data;
-    for (const adminKey in adminSchema) {
-      const admin = adminSchema[adminKey];
 
-      if (admin.email === email && admin.password === password) {
-        console.log("Admin:", admin);
-
-        return (
-          setLoginData(admin),
-          localStorage.setItem("loginData", JSON.stringify(admin)),
-          navigate("/")
-        );
+    const loginIn = adminSchema; // adminSchema will be the data we received from the api call
+    if (loginIn === "Admin") {
+      if (loginIn.email === email && loginIn.password === password) {
+        console.log("Admin", loginIn.id);
+        setLoginData(loginIn);
+        navigate("/");
       }
-      for (const userKey in admin.users) {
-        const user = admin.users[userKey];
-        if (user.email === email && user.password === password) {
-          console.log("User:", user);
-          return (
-            setLoginData(user),
-            localStorage.setItem("loginData", JSON.stringify(user)),
-            navigate("/homePage")
-          );
-        }
+    } else if (loginIn === "User") {
+      if (loginIn.email === email && loginIn.password === password) {
+        console.log("Admin", loginIn.id);
+        setLoginData(loginIn);
+        navigate("/homePage");
       }
+    } else {
+      console.log("");
     }
-    console.log("Invalid email or password");
+
+    if (loginIn.email === email && loginIn.password === password) {
+      console.log("Admin:", loginIn);
+
+      return (
+        setLoginData(admin),
+        localStorage.setItem("loginData", JSON.stringify(admin)),
+        navigate("/")
+      );
+    } else {
+      console.log("Invalid email or password");
+    }
   };
   console.log(loginData);
   return (
@@ -159,3 +107,55 @@ function Login() {
 }
 
 export default Login;
+
+// const adminSchema = {
+//   admin1: {
+//     id: 1,
+//     useName: "artiom",
+//     email: "artiom@artiom",
+//     password: "asasasas",
+//     phoneNumber: "055855346",
+//     users: {
+//       user1: {
+//         id: 3,
+//         useName: "adi",
+//         email: "qqq@qqq",
+//         password: "qqqqqqqq",
+//         phoneNumber: "0558599999",
+//       },
+//       user2: {
+//         id: 4,
+//         useName: "DUDU",
+//         email: "qq@qq",
+//         password: "11111111",
+//         phoneNumber: "0666666666",
+//       },
+//     },
+//     adminId: 12,
+//   },
+//   // Admin2
+//   admin2: {
+//     id: 2,
+//     useName: "Moti",
+//     email: "artiom1@1artiom",
+//     password: "qwqwqwqw",
+//     phoneNumber: "0555555555",
+//     adminId: 33,
+//     users: {
+//       user1: {
+//         id: 3,
+//         useName: "adi",
+//         email: "bb@bb",
+//         password: "qqqqqqqq",
+//         phoneNumber: "0558599999",
+//       },
+//       user2: {
+//         id: 4,
+//         useName: "DUDU",
+//         email: "bbb@bbb",
+//         password: "11111111",
+//         phoneNumber: "0666666666",
+//       },
+//     },
+//   },
+// };
