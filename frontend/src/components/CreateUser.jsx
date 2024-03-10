@@ -4,7 +4,7 @@ import PhoneInput, {
   formatPhoneNumber,
   formatPhoneNumberIntl,
 } from "react-phone-number-input";
-import "./CreateUser.css";
+
 function CreatUser({ users }) {
   //in userslist we gets the users array and we send it into here, updating it, asendimg update request to the server. in users list we doing fetch to the users list in use effect.
 
@@ -54,7 +54,7 @@ function CreatUser({ users }) {
           <PhoneInput
             placeholder="Enter phone number"
             value={phoneNumber}
-            limitMaxLength= "10"
+            limitMaxLength="10"
             onChange={setPhoneNumber}
           />
           <p>Phone Number: {phoneNumber && formatPhoneNumber(phoneNumber)}</p>

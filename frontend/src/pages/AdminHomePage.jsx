@@ -1,21 +1,26 @@
-import React from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Calendar from "../components/calendar";
-import UsersList from "./UsersList";
+import Calendar from "../components/Calendar";
+import { AppContext } from "../context/AppContext";
+// import UsersList from "./UsersList";
 
 function AdminHomePage() {
   const navigate = useNavigate();
-
-  const handelMyusersNavigation = () => {
-    navigate('/userslist'); //////my users page!!!!!!///dont forget to send the logged admin!!!!!!
-  };
+  const { loginData, setLoginData } = useContext(AppContext);
+  useEffect(() => {
+    setLoginData(localStorage.getItem("loginData"));
+    // console.log(loginData);
+  });
 
   return (
     <>
-      <Calendar /> //send loged in admin!!!!
-      <hr />
-      <div onClick={handelMyusersNavigation}>my students</div>// add hover and
-      design elements!!!
+      <div className="admin-home-container h-screen flex items-center justify-center">
+        <div className="admin-card w-[60vw] h-[90vh] overflow-y-auto bg-black-50 mt-[2vh]">
+          <Calendar />
+
+          {/* <div onClick={handelMyusersNavigation}>my students</div> */}
+        </div>
+      </div>
     </>
   );
 }

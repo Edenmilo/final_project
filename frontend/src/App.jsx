@@ -1,21 +1,30 @@
-// import "./App.css";
+import "./App.css";
+import Social from "./pages/Social";
+import Workouts from "./pages/Workouts";
+import { ContextProvider } from "./context/AppContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Login from "./pages/Login";
 import AdminHomePage from "./pages/AdminHomePage";
 import UsersList from "./pages/UsersList";
+import Exercises from "./pages/Exercises";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AdminHomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/userslist" element={<UsersList/>} /> //send to it admin id!!! to get his users
-
-        </Routes>
-      </BrowserRouter>
+      <ContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<AdminHomePage />} />
+            <Route path="/homePage" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/social" element={<Social />} />
+            <Route path="/social/workouts" element={<Workouts />} />
+            <Route path="/social/workouts/exercises" element={<Exercises />} />
+            <Route path="/userslist" element={<UsersList />} />
+          </Routes>
+        </BrowserRouter>
+      </ContextProvider>
     </>
   );
 }
