@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -7,8 +7,20 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import "./calender.css";
+import { AppContext } from "../context/AppContext";
 
 function Calendar() {
+  const { loginData } = useContext(AppContext);
+  const adminId = loginData.admin.id;
+
+  useEffect(() => {
+    const fetchEvents = () => {
+      axios.post(`http://localhost:3306/event/${adminId}`).then((response) => {
+        setEvents(response);
+      });
+    };
+  });
+
   // dont forget to get event by id from the DB
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
