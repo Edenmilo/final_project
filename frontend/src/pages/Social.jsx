@@ -1,4 +1,4 @@
-import { AppContext } from "../AppContext";
+import { AppContext } from "../context/AppContext";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ function Social() {
 
   // }
   // in every clicked category its send to the Workouts.jsx page the admin workouts
-  const { useData, setUserData } = useContext(AppContext);
+  const { loginData, setLoginData } = useContext(AppContext);
   const navigate = useNavigate();
   const workoutData = [
     {

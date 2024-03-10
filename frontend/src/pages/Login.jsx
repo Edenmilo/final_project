@@ -1,7 +1,66 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 function Login() {
+  /////////////////////////////
+
+  const adminSchema = {
+    admin1: {
+      id: 1,
+      useName: "artiom",
+      email: "artiom@artiom",
+      password: "asasasas",
+      phoneNumber: "055855346",
+      users: {
+        user1: {
+          id: 3,
+          useName: "adi",
+          email: "qqq@qqq",
+          password: "qqqqqqqq",
+          phoneNumber: "0558599999",
+        },
+        user2: {
+          id: 4,
+          useName: "DUDU",
+          email: "qq@qq",
+          password: "11111111",
+          phoneNumber: "0666666666",
+        },
+      },
+      adminId: 12,
+    },
+    // Admin2
+    admin2: {
+      id: 2,
+      useName: "Moti",
+      email: "artiom1@1artiom",
+      password: "qwqwqwqw",
+      phoneNumber: "0555555555",
+      adminId: 33,
+      users: {
+        user1: {
+          id: 3,
+          useName: "adi",
+          email: "bb@bb",
+          password: "qqqqqqqq",
+          phoneNumber: "0558599999",
+        },
+        user2: {
+          id: 4,
+          useName: "DUDU",
+          email: "bbb@bbb",
+          password: "11111111",
+          phoneNumber: "0666666666",
+        },
+      },
+    },
+  };
+
+  /////////////////////////////
+
+  const { loginData, setLoginData } = useContext(AppContext);
+
   const {
     register,
     handleSubmit,
@@ -9,18 +68,43 @@ function Login() {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
-  /// api call from the backed to check is this user exist
+  const navigate = useNavigate();
 
+  const onSubmit = (data) => {
+    const { email, password } = data;
+    for (const adminKey in adminSchema) {
+      const admin = adminSchema[adminKey];
+
+      if (admin.email === email && admin.password === password) {
+        console.log("Admin:", admin);
+
+        return (
+          setLoginData(admin),
+          localStorage.setItem("loginData", JSON.stringify(admin)),
+          navigate("/")
+        );
+      }
+      for (const userKey in admin.users) {
+        const user = admin.users[userKey];
+        if (user.email === email && user.password === password) {
+          console.log("User:", user);
+          return (
+            setLoginData(user),
+            localStorage.setItem("loginData", JSON.stringify(user)),
+            navigate("/homePage")
+          );
+        }
+      }
+    }
+    console.log("Invalid email or password");
+  };
+  console.log(loginData);
   return (
     <>
       <div className="login-container bg-black text-white min-h-screen flex items-center">
         <div className="login-card flex flex-col justify-end   mx-auto h-[90vh] w-[30vw] bg-black-50 rounded-[20px] bg-[url('https://img.freepik.com/premium-photo/gorgeous-brunette-female-with-long-braids-doing-squats-using-barbell-side-view_944525-4104.jpg')] bg-cover bg-center phone:w-[100vw] phone:h-[100vh]">
           <div className="login-header-box w-full h-full flex items-center justify-center ">
-            <h2 className=" login-header font-bold mt-[10vh] absolute  ">
+            <h2 className=" login-header font-bold mt-[10vh] absolute">
               WELCOME BACK
             </h2>
           </div>

@@ -1,12 +1,13 @@
 import "./App.css";
 import Social from "./pages/Social";
 import Workouts from "./pages/Workouts";
-import { ContextProvider } from "./AppContext";
+import { ContextProvider } from "./context/AppContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import AdminHomePage from "./pages/AdminHomePage";
 import UsersList from "./pages/UsersList";
 import Exercises from "./pages/Exercises";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<AdminHomePage />} />
+            <Route path="/homePage" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/social" element={<Social />} />
             <Route path="/social/workouts" element={<Workouts />} />

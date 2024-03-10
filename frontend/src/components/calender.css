@@ -1,0 +1,66 @@
+.fc .fc-media-screen .fc-direction-ltr .fc-theme-standard{
+    background-color: #333;
+}
+/* .fc .fc-toolbar.fc-header-toolbar{
+   padding: 0.5rem;
+    gap: 2vh;
+    margin-bottom: 0;
+} */
+/* .fc-header-toolbar .fc-toolbar{
+    gap: 2vw;
+    flex-direction: column-reverse;
+    background-color: #333;
+}  */
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0;
+}
+.fc .fc-toolbar{
+    /* justify-content: space-evenly; */
+    flex-direction: column;
+    gap: 1vh;
+    padding: 1rem;
+    margin-bottom: 0;
+}
+.fc-toolbar-chunk{   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+}
+.fc-button-group{
+    width: 100%;
+    font-size: 0.7rem;
+}
+.fc-button-group button{
+    height: 80%;
+}
+/* .fc .fc-button{
+    padding: 0.5vh;
+} */
+.fc .fc-button .fc-icon{
+    font-size: 1rem;
+}
+.fc .fc-toolbar-title{
+    text-wrap: nowrap;
+    font-size: 1.2rem;
+}
+.fc .fc-col-header-cell-cushion{
+    font-size: 0.7rem;
+    padding: 5%;
+}
+
+.fc .fc-scrollgrid{
+    margin: auto;
+    width: 90%;
+}
+.fc-scroller{
+    width: 100%;
+}
+.fc-scroller[style="overflow: hidden scroll;"] {
+    overflow: auto !important; 
+}
+button.fc-today-button{
+    font-size: 2px;
+}
+
+

@@ -1,7 +1,7 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useContext } from "react";
-import { AppContext } from "../AppContext";
+import { useContext, useEffect } from "react";
+import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 function Workouts() {
@@ -53,10 +53,14 @@ function Workouts() {
     },
   ];
 
-  const { userData } = useContext(AppContext);
-  console.log(userData);
+  const { loginData, setLoginData } = useContext(AppContext);
+  useEffect(() => {
+    setLoginData(localStorage.getItem("loginData"));
+    console.log(loginData);
+  }); /// instead of loginData will be a state in the context
+
   const navigate = useNavigate();
-  const selectedWorkoutType = userData.workoutType || "";
+  const selectedWorkoutType = loginData.workoutType || "";
 
   const filteredExercises = exercise.filter(
     (ex) => ex.type === selectedWorkoutType
