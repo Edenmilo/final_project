@@ -43,7 +43,7 @@ exports.createUser = async (req, res) => {
 
 exports.getUsersForAdmin = async (req, res) => {
   try {
-    const { adminId } = req.params;
+    const { adminId } = req.body;
 
     const users = await User.findAll({ where: { AdminId: adminId } });
 
@@ -54,26 +54,9 @@ exports.getUsersForAdmin = async (req, res) => {
   }
 };
 
-exports.getUserById = async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      return res.status(404).json({ error: "user not found" });
-    }
-
-    res.status(200).json(user);
-  } catch (error) {
-    console.error("Error fetching admin:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
 exports.getUserInfo = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.body;
 
     const user = await User.findByPk(userId);
 
@@ -108,7 +91,7 @@ exports.getUserInfo = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.body;
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -116,6 +99,7 @@ exports.updateUser = async (req, res) => {
     }
 
     const {
+      weight,
       username,
       email,
       phoneNumber,
@@ -125,11 +109,15 @@ exports.updateUser = async (req, res) => {
       bodyFat,
       menu,
     } = req.body;
-    let { weight } = req.body;
 
-    if (weight) {
-      const currentWeight = user.weight || [];
-      weight = [...currentWeight, weight];
+    let updatedWeights = user.weight || [];
+
+    if (weight !== undefined) {
+      updatedWeights.push(weight);
+
+      if (updatedWeights.length > 4) {
+        updatedWeights = updatedWeights.slice(updatedWeights.length - 4);
+      }
     }
 
     await user.update({
@@ -137,7 +125,7 @@ exports.updateUser = async (req, res) => {
       email,
       phoneNumber,
       height,
-      weight,
+      weight: updatedWeights,
       age,
       goalWeight,
       bodyFat,
@@ -151,9 +139,11 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+
+
 exports.deleteUser = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.body;
 
     const user = await User.findByPk(userId);
 

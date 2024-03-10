@@ -16,7 +16,7 @@ const User = sequelize.define("User", {
   goalWeight: { type: DataTypes.FLOAT },
   bodyFat: { type: DataTypes.FLOAT, allowNull: true },
   menu: {
-    type: DataTypes.JSON,
+    type: DataTypes.TEXT,
     allowNull: true,
     get() {
       const menuData = this.getDataValue("menu");
@@ -25,8 +25,7 @@ const User = sequelize.define("User", {
     set(value) {
       this.setDataValue("menu", JSON.stringify(value));
     },
-  },
-  adminId: { type: DataTypes.INTEGER, allowNull: false },
+  }
 });
 
 module.exports = User;

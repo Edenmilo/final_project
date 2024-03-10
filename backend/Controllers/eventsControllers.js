@@ -3,23 +3,21 @@ const User = require("../Models/userModel");
 
 exports.createEvent = async (req, res) => {
   try {
-    const {
-      createdBy,
-      title,
-      startTime,
-      finishTime,
-      studentsLimit,
-      registeredUsers,
-      summary,
-    } = req.body;
+    const { title, startTime, finishTime, studentsLimit, summary, createdBy } = req.body;
+
+    const adminExists = await Admin.findByPk(createdBy);
+    if (!adminExists) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+   const adminId= adminExists.id
 
     const event = await Event.create({
-      createdBy,
       title,
       startTime,
       finishTime,
       studentsLimit,
       summary,
+      createdBy: adminId 
     });
 
     res.status(201).json(event);
@@ -41,7 +39,7 @@ exports.deleteEvent = async (req, res) => {
 
     await event.destroy();
     await EventUser.destroy({ where: { EventId: eventId } });
-    res.status(204).json({ message: "Event deleted successfully" });
+    res.status(201).json({ message: "Event deleted successfully" });
   } catch (error) {
     console.error("Error deleting event:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -86,43 +84,36 @@ exports.fillEventWithUser = async (req, res) => {
     if (!event) {
       return res.status(404).json({ error: "event not found" });
     }
+
     const userInEvent = await EventUser.create({
-      eventId,
-      userId,
+      UserId: user.id,  
+      EventId: event.id, 
     });
 
     res.status(200).json(userInEvent);
   } catch (error) {
-    console.error("Error fetching events:", error);
+    console.error("Error associating user with event:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
 exports.getUsersInEvent = async (req, res) => {
-    try {
-      const { eventId } = req.params;
-  
-      const event = await Event.findByPk(eventId);
-      if (!event) {
-        return res.status(404).json({ message: "Event not found" });
-      }
-  
-      const usersIn = await EventUser.findAll({
-        where: { EventId: eventId },
-        attributes: ["UserId"],
-      });
-  
-      const fullUsersIn = await Promise.all(
-        usersIn.map(async (userId) => {
-          const user = await User.findByPk(userId);
-          return user;
-        })
-      );
-  
-      res.status(200).json({ eventTitle: event.title, fullUsersIn });
-    } catch (error) {
-      console.error("Error fetching event registered users:", error);
-      res.status(500).json({ message: "Internal Server Error" });
+  try {
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
     }
-  };
-  
+    
+    const eventUsers = await EventUser.findAll({ where: { EventId: eventId } });
+
+    const usersIn = eventUsers.map((eventUser) => eventUser.UserId);
+
+    res.status(200).json({ eventId: event.id, users: usersIn });
+  } catch (error) {
+    console.error("Error fetching event registered users:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
