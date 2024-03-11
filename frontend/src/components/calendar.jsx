@@ -76,7 +76,7 @@ function Calendar() {
             <Popover.Root>
               <Popover.Trigger asChild>
                 <button
-                  className="w-full h-full flex items-center justify-center text-violet11 bg-white text-[0.7rem] shadow-blackA4 hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black cursor-default outline-none"
+                  className="w-full h-full flex items-center justify-center text-violet11 bg-white text-[0.7rem] shadow-blackA4 hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black-50 cursor-default outline-none"
                   aria-label="Update dimensions"
                 >
                   {eventInfo.event.title}
@@ -84,7 +84,7 @@ function Calendar() {
               </Popover.Trigger>
               <Popover.Portal>
                 <Popover.Content
-                  className="rounded p-5 z-50 w-[30vw] bg-gray-50 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+                  className="rounded p-5 z-50 w-[30vw] bg-gray-50 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)]  will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
                   sideOffset={7}
                   align="center"
                   avoidCollisions

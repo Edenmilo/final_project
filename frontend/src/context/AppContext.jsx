@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 
 export const AppContext = createContext({
+  //login
   loginData: {},
   setLoginData: () => {},
   //calender
@@ -37,6 +38,11 @@ export const AppContext = createContext({
   setGoalWeight: () => {},
   fatPercent: "",
   setFatPercent: () => {},
+  //social
+  workoutData: {},
+  setWorkoutData: () => {},
+  workoutCategory: "",
+  setWorkoutCategory: () => {},
 });
 
 export const ContextProvider = ({ children }) => {
@@ -60,8 +66,12 @@ export const ContextProvider = ({ children }) => {
   const [age, setAge] = useState("");
   const [goalWeight, setGoalWeight] = useState("");
   const [fatPercent, setFatPercent] = useState("");
+  // social
+  const [workoutData, setWorkoutData] = useState([]);
+  const [workoutCategory, setWorkoutCategory] = useState("");
 
   const contextValue = {
+    //login
     loginData,
     setLoginData,
     //calender
@@ -98,6 +108,11 @@ export const ContextProvider = ({ children }) => {
     setGoalWeight,
     fatPercent,
     setFatPercent,
+    //social
+    workoutData,
+    setWorkoutData,
+    workoutCategory,
+    setWorkoutCategory,
   };
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
