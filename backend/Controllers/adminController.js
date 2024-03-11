@@ -133,7 +133,6 @@ exports.createUser = async (req, res) => {
       goalWeight,
       bodyFat
     } = req.body;
-    console.log(req.admin)
      const AdminId = req.admin.id
 
     const hashedPassword = await bcrypt.hash(password, 10);
