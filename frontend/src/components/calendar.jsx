@@ -1,43 +1,31 @@
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
+import * as Popover from "@radix-ui/react-popover";
+import { MixerHorizontalIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { AppContext } from "../context/AppContext";
 import "./calender.css";
 
 function Calendar() {
+  const {
+    title,
+    setTitle,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    studentsLimit,
+    setStudentsLimit,
+    summary,
+    setSummary,
+    events,
+    setEvents,
+  } = useContext(AppContext);
   // dont forget to get event by id from the DB
-  const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [studentsLimit, setStudentsLimit] = useState("");
-  const [summary, setSummary] = useState("");
-  const [events, setEvents] = useState([]);
-
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <div className="event-container w-full h-full relative p-1">
-          <h5 className="font-bold truncate text-[0.5rem]">
-            {eventInfo.event.title}
-          </h5>
-          {/* <span className=" text-[5px]">{eventInfo.start}</span>
-          <span className=" text-[5px]">{eventInfo.end}</span>
-          <span className="text-[5px]">{eventInfo.maxStudents}</span>
-          <span className="text-[5px]">{eventInfo.textBox}</span> */}
-          <button
-            onClick={() => deleteEvent(event.title)}
-            className="top-0 right-0 p-1 text-[5px]"
-          >
-            delete
-          </button>
-        </div>
-      </>
-    );
-  }
 
   const {
     register,
@@ -46,10 +34,6 @@ function Calendar() {
     reset,
   } = useForm();
 
-  const deleteEvent = (eventTitle) => {
-    const updatedEvents = events.filter((event) => event.id !== eventTitle);
-    setEvents(updatedEvents);
-  };
   const onSubmit = (data) => {
     const newEvent = {
       title: data.title,
@@ -58,49 +42,141 @@ function Calendar() {
       maxStudents: data.maxStudents,
       textBox: data.textBox,
     };
-
     setEvents((prevEvents) => [...prevEvents, newEvent]);
-
     console.log(newEvent);
     setTitle(newEvent.title);
-
-    setStartDate("");
-    setEndDate("");
+    setStartDate(newEvent.start);
+    setEndDate(newEvent.end);
     setStudentsLimit(newEvent.maxStudents);
-    setSummary("");
+    setSummary(newEvent.textBox);
+    reset();
   };
-  console.log(events);
-  console.log(title);
-  // console.log(title);
-  // console.log(startDate);
 
   const today = new Date();
   const todayFormat = today.toLocaleDateString();
-  // console.log(todayFormat);
-  // const handleSubmitApi = (e) => {
-  //   e.preventDefault();
 
-  //   const newEvent = {
-  //     title: title,
-  //     start: startDate,
-  //     end: endDate,
-  //     maxStudents: studentsLimit,
-  //     summary: summary,
-  //   };
-  //   //post request for new event
-  //   //get request for all events
-  //   setEvents([...events, newEvent]); //wont be used after database connected becaise i will get the evenst from the DB.
+  function renderEventContent(eventInfo) {
+    console.log();
+    return (
+      <>
+        <div className="event-container w-full h-full relative ">
+          <div className="event-container w-full h-full relative ">
+            <Popover.Root>
+              <Popover.Trigger asChild>
+                <button
+                  className="w-full h-full flex items-center justify-center text-violet11 bg-white text-[0.7rem] shadow-blackA4 hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black cursor-default outline-none"
+                  aria-label="Update dimensions"
+                >
+                  {eventInfo.event.title}
+                </button>
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  className="rounded p-5 z-50 w-[30vw] bg-gray-50 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+                  sideOffset={7}
+                  align="center"
+                  avoidCollisions
+                >
+                  <form>
+                    <div className="flex flex-col gap-2.5">
+                      <p className="text-mauve12 text-[15px] leading-[19px] font-medium mb-2.5">
+                        Event Details
+                      </p>
 
-  //   setTitle("");
-  //   setStartDate("");
-  //   setEndDate("");
-  //   setStudentsLimit("");
-  //   setSummary("");
+                      <fieldset className="flex gap-5 items-center">
+                        Title
+                        <div className="w-full">
+                          <input
+                            className="w-full inline-flex items-center justify-center rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
+                            id="title"
+                            defaultValue={eventInfo.event.title}
+                            // readOnly
+                          />
+                        </div>
+                      </fieldset>
+                      <fieldset className="flex gap-5 items-center">
+                        Start
+                        <div className="w-full">
+                          <input
+                            className="w-full inline-flex items-center justify-center rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
+                            id="start"
+                            defaultValue={eventInfo.event.start.toLocaleString()}
+                            // readOnly
+                            // {...register("start")}
+                          />
+                        </div>
+                      </fieldset>
+                      <fieldset className="flex gap-5 items-center">
+                        End
+                        <div className="w-full">
+                          <input
+                            className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
+                            id="end"
+                            defaultValue={eventInfo.event.end.toLocaleString()}
+                            // readOnly
+                            // {...register("end")}
+                          />
+                        </div>
+                      </fieldset>
+                      <fieldset className="flex gap-5 items-center">
+                        Max Students
+                        <div className="w-full">
+                          <input
+                            className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
+                            id="maxStudents"
+                            defaultValue={studentsLimit}
+                            // readOnly
+                            {...register("maxStudents")}
+                          />
+                        </div>
+                      </fieldset>
+                      <fieldset className="flex gap-5 items-center">
+                        Summary
+                        <div className="w-full">
+                          <input
+                            className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
+                            id="textBox"
+                            defaultValue={summary}
+                            // readOnly
+                            {...register("textBox")}
+                          />
+                        </div>
+                      </fieldset>
+                      {/* <Popover.Close type="submit">Save Changes</Popover.Close> */}
+                    </div>
+
+                    <Popover.Close
+                      className="rounded-full h-[25px] w-[25px] inline-flex items-center justify-center text-violet11 absolute top-[5px] right-[5px] hover:bg-violet4 focus:shadow-[0_0_0_2px] focus:shadow-violet7 cursor-default"
+                      aria-label="Close"
+                    >
+                      <Cross2Icon />
+                    </Popover.Close>
+                    <Popover.Arrow className="fill-white" />
+                  </form>
+                  <button onClick={() => deleteEvent(event.id)}>
+                    Delete Event
+                  </button>
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
+          </div>
+        </div>
+      </>
+    );
+  }
+  // const handleEventDelete = (eventId) => {
+  //   setEvents(events.filter(event => event.id !== eventId));
   // };
+  const deleteEvent = (eventId) => {
+    const updatedEvents = events.filter((event) => event.id !== eventId);
+    setEvents(updatedEvents);
+  };
 
+  /////// the calender and the add event
   return (
     <>
-      <div className="calendar-container w-full h-full flex flex-col items-center mt-[3%]">
+      {/* calender container */}
+      <div className="calendar-container w-full flex flex-col items-center mt-[3%]">
         <h2 className="admin-home-page-header p-[5%] text-[1.6rem]">
           Admin Home page
         </h2>
@@ -108,7 +184,6 @@ function Calendar() {
           <div className="calender-box mb-[5vh]">
             <FullCalendar
               events={events}
-              select={onSubmit}
               plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
               initialView="timeGridWeek"
               slotDuration="01:00:00"
@@ -134,6 +209,8 @@ function Calendar() {
             />
           </div>
         </div>
+
+        {/* add event */}
         <Dialog.Root onOpenChange={handleSubmit(onSubmit)}>
           <Dialog.Trigger asChild>
             <div className="add-event-radix-button h-[15vh] w-[90%] m-auto mt-[2vh]">
@@ -150,18 +227,18 @@ function Calendar() {
                   handleSubmit(onSubmit);
                 }}
                 id="add-event-form"
-                className="radix-add-event-form p-[2%] fixed flex flex-col justify-center items-center h-full w-full"
+                className="radix-add-event-form p-[2%] fixed flex flex-col justify-center items-center h-full w-full gap-[1rem]"
               >
-                <Dialog.Title className="text-mauve12 m-0 text-[1rem] font-[700]">
+                <Dialog.Title className="text-mauve12 m-0 text-[1.5rem] font-[700]">
                   Add Event
                 </Dialog.Title>
 
-                <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[0.8rem]">
+                <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[1rem]">
                   Add to your schedule another workout!
                 </Dialog.Description>
-                <div className="add-event-inputs-box w-[90%] flex flex-col items-center justify-center gap-[8px]">
+                <div className="add-event-inputs-box w-full h-full flex flex-col items-center justify-center gap-[1rem]">
                   <input
-                    className="text-white-50 shadow-black-50 inline-flex h-[8vh] w-[80%] flex-1 items-center justify-center rounded-[4px] text-[0.7rem] leading-none shadow-[0_0_0_1px] outline-none focus:shadow-[0_0_0_2px]"
+                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center rounded-[0.5rem] text-[0.7rem] shadow-[0_0_0_1px] focus:shadow-[0_0_0_2px]"
                     id="title"
                     placeholder="  Title"
                     {...register("title", { min: 3, max: 12 })}
@@ -175,21 +252,20 @@ function Calendar() {
                     >
                       Starts At:
                       <input
-                        className="text-white-50 shadow-black-50 inline-flex h-[8vh]  flex-1 items-center justify-center rounded-[4px] text-[0.6rem] leading-none shadow-[0_0_0_1px] outline-none "
+                        className="text-white-50 shadow-black-50 flex h-[5vh] items-center justify-center rounded-[0.5rem] text-[0.6rem] shadow-[0_0_0_1px] "
                         id="start"
                         placeholder="  Workout Starts At:"
                         type="datetime-local"
                         {...register("start", { min: todayFormat, max: 12 })}
                       />
                     </label>
-
                     <label
                       htmlFor="end"
                       className="text-[0.8rem] font-medium w-full flex flex-col items center"
                     >
                       End At:
                       <input
-                        className="text-white-50 shadow-black-50 inline-flex h-[8vh]  flex-1 items-center justify-center rounded-[4px] text-[0.6rem] leading-none shadow-[0_0_0_1px] outline-none "
+                        className="text-white-50 shadow-black-50 flex h-[5vh] items-center justify-center rounded-[0.5rem] text-[0.6rem] shadow-[0_0_0_1px] "
                         id="end"
                         placeholder="Workout Ends At:"
                         type="datetime-local"
@@ -198,7 +274,7 @@ function Calendar() {
                     </label>
                   </div>
                   <input
-                    className="text-white-50 shadow-black-50 inline-flex h-[8vh] w-[80%] flex-1 items-center justify-center rounded-[4px] text-[0.7rem] leading-none shadow-[0_0_0_1px] outline-none "
+                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center rounded-[0.5rem] text-[0.7rem] shadow-[0_0_0_1px] "
                     id="maxStudents"
                     placeholder="  Maximum number of students"
                     type="text"
@@ -206,7 +282,7 @@ function Calendar() {
                   />
 
                   <input
-                    className="text-white-50 shadow-black-50 inline-flex h-[8vh] w-[80%] flex-1 items-center justify-center rounded-[4px] text-[0.7rem] leading-none shadow-[0_0_0_1px]  focus:outline-none "
+                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center rounded-[4px] text-[0.7rem] shadow-[0_0_0_1px]"
                     id="textBox"
                     placeholder="  Give us some words about the workout..."
                     {...register("textBox")}
@@ -216,7 +292,7 @@ function Calendar() {
                   <Dialog.Close asChild>
                     <button
                       type="submit"
-                      className="bg-green4 text-green11 hover:bg-green5 focus:shadow-green7 inline-flex h-[8vh] items-center justify-center rounded-[4px] px-[0.7rem] font-medium leading-none  focus:outline-none"
+                      className="bg-green4 text-green11 hover:bg-green5 focus:shadow-green7 flex h-[5vh] items-center justify-center rounded-[4px] px-[0.7rem] font-medium"
                     >
                       Save changes
                     </button>
@@ -224,7 +300,7 @@ function Calendar() {
                 </div>
                 <Dialog.Close asChild>
                   <button
-                    className="text-black-50 hover:bg-violet4 focus:shadow-black-50 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full  focus:outline-none"
+                    className="text-black-50 hover:bg-violet4 focus:shadow-black-50 absolute top-[10px] right-[10px] flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full"
                     aria-label="Close"
                   >
                     <Cross2Icon />
@@ -234,48 +310,6 @@ function Calendar() {
             </Dialog.Content>
           </Dialog.Portal>
         </Dialog.Root>
-
-        {/* <div className="add-workout-container w-[90%] m-auto mt-[3vh] mb-[3vh] bg-gray-50 rounded-[10px]">
-          <form className="add-workout-form" onSubmit={handleSubmit}>
-            <h3 className="">Add Workout</h3>
-            <label>Title:</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <hr />
-            <label>Workout Starts At:</label>
-            <input
-              type="datetime-local"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-            <hr />
-            <label>Workout Ends At:</label>
-            <input
-              type="datetime-local"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-            <hr />
-            <label>Maximum students:</label>
-            <input
-              type="number"
-              value={studentsLimit}
-              onChange={(e) => setStudentsLimit(e.target.value)}
-            />
-            <hr />
-            <label>Give us some words about the workout...</label>
-            <input
-              type="text"
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-            />
-            <hr />
-            <button type="submit">Add Book</button>
-          </form>
-        </div> */}
       </div>
     </>
   );

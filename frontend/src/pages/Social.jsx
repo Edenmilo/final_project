@@ -62,8 +62,8 @@ function Social() {
     },
   ];
   const handleWorkoutClick = ({ workoutType }) => {
-    setUserData((prevUserData) => ({
-      ...prevUserData,
+    setLoginData((prevLoginData) => ({
+      ...prevLoginData,
       workoutType: workoutType,
     }));
 
@@ -93,8 +93,8 @@ function Social() {
   return (
     <>
       <div className="social-container h-screen w-screen flex items-center justify-center phone:bg-black-50 ">
-        <div className="social-card w-[40vw] max-h-[90vh] overflow-y-auto phone:w-screen phone:h-screen phone:w-screen  ">
-          <div className="social-box flex flex-col  text-sm text-neon-50 whitespace-nowrap bg-black-50 phone:w-screen phone:h-screen  ">
+        <div className="social-card w-[40vw] max-h-[90vh] overflow-y-auto no-scrollbar phone:w-screen phone:h-screen phone:w-screen  ">
+          <div className="social-box flex flex-col text-sm text-neon-50 whitespace-nowrap bg-black-50 phone:w-screen phone:h-screen  ">
             <div className="self-center text-[2rem] mt-[2vh] font-semibold text-neon-50">
               Social
             </div>
