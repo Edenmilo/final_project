@@ -25,7 +25,7 @@ function CreateUser() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3306/admin/create", data);
+      const response = await axios.post("http://localhost:3306/admin/createuser", data);
       console.log(response.data);
       setLoginData(response.data);
       reset();
