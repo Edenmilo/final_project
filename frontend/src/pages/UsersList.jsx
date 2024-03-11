@@ -28,7 +28,7 @@ function UsersList() {
 
   return (
     <>
-      <div className="users-list-container w-screen h-screen flex flex-col items-center justify-center">
+      <div className="users-list-container w-full h-full flex flex-col items-center justify-center">
         <div className="users-list-card w-[40vw] h-[90vh] bg-black-50 rounded-[2rem]">
           <div className="users-list-box w-full h-full">
             <header className="users-list-header h-[25%]">
