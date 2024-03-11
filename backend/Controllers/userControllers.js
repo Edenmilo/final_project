@@ -4,9 +4,9 @@ const User = require("../Models/userModel");
 
 exports.getUsersForAdmin = async (req, res) => {
   try {
-    const { adminId } = req.body;
+    const AdminId = req.admin.id
 
-    const users = await User.findAll({ where: { AdminId: adminId } });
+    const users = await User.findAll({ where: { AdminId: AdminId } });
 
     res.status(200).json(users);
   } catch (error) {
@@ -17,7 +17,7 @@ exports.getUsersForAdmin = async (req, res) => {
 
 exports.getUserInfo = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     const user = await User.findByPk(userId);
 
@@ -35,6 +35,7 @@ exports.getUserInfo = async (req, res) => {
       email: user.email,
       phoneNumber: user.phoneNumber,
       height: user.height,
+      weight: user.weight,
       age: user.age,
       goalWeight: user.goalWeight,
       bodyFat: user.bodyFat,
@@ -52,7 +53,7 @@ exports.getUserInfo = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -71,7 +72,8 @@ exports.updateUser = async (req, res) => {
       menu,
     } = req.body;
 
-    let updatedWeights = user.weight || [];
+    // Ensure updatedWeights is always treated as an array
+    let updatedWeights = Array.isArray(user.weight) ? [...user.weight] : [];
 
     if (weight !== undefined) {
       updatedWeights.push(weight);
@@ -102,9 +104,10 @@ exports.updateUser = async (req, res) => {
 
 
 
+
 exports.deleteUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     const user = await User.findByPk(userId);
 
