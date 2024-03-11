@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -9,8 +9,20 @@ import * as Popover from "@radix-ui/react-popover";
 import { MixerHorizontalIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { AppContext } from "../context/AppContext";
 import "./calender.css";
+import { AppContext } from "../context/AppContext";
 
 function Calendar() {
+  const { loginData } = useContext(AppContext);
+  const adminId = loginData.admin.id;
+
+  useEffect(() => {
+    const fetchEvents = () => {
+      axios.post(`http://localhost:3306/event/${adminId}`).then((response) => {
+        setEvents(response);
+      });
+    };
+  });
+
   const {
     title,
     setTitle,
@@ -25,6 +37,7 @@ function Calendar() {
     events,
     setEvents,
   } = useContext(AppContext);
+
   // dont forget to get event by id from the DB
 
   const {
