@@ -53,7 +53,7 @@ exports.getUserInfo = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -72,7 +72,8 @@ exports.updateUser = async (req, res) => {
       menu,
     } = req.body;
 
-    let updatedWeights = user.weight || [];
+    // Ensure updatedWeights is always treated as an array
+    let updatedWeights = Array.isArray(user.weight) ? [...user.weight] : [];
 
     if (weight !== undefined) {
       updatedWeights.push(weight);
@@ -103,9 +104,10 @@ exports.updateUser = async (req, res) => {
 
 
 
+
 exports.deleteUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     const user = await User.findByPk(userId);
 

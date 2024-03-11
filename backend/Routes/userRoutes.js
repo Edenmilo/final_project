@@ -5,7 +5,7 @@ const {getUsersForAdmin, getUserInfo, updateUser, deleteUser} = require('../Cont
 
 router.post('/adminusers', getUsersForAdmin);
 router.get('/info/:userId', getUserInfo);
-router.post('/update', updateUser);
-router.delete('/delete', deleteUser);
+router.post('/info/:userId/update', updateUser);
+router.delete('/info/:userId/delete', deleteUser);
 
 module.exports = router;
