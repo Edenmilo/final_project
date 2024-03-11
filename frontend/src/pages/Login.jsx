@@ -18,8 +18,8 @@ function Login() {
   const onSubmit = (data) => {
     const { email, password } = data;
 
-    axios
-      .post("http://localhost:3306/admin/login", { email, password })
+    axios.post("http://localhost:3306/admin/login", { email, password })
+
       .then((response) => {
         if (response.data["admin"]) {
           navigate("/");
@@ -70,7 +70,7 @@ function Login() {
                 className="mt-1 w-full border-b bg-black-50 text-white-50 text-[0.9rem]"
                 placeholder="Password"
                 {...register("password", {
-                  minLength: 8,
+                  minLength: 3,
                   maxLength: 14,
                   required: true,
                 })}

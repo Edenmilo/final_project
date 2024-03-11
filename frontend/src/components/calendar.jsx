@@ -9,11 +9,10 @@ import * as Popover from "@radix-ui/react-popover";
 import { MixerHorizontalIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { AppContext } from "../context/AppContext";
 import "./calender.css";
-import { AppContext } from "../context/AppContext";
 
 function Calendar() {
   const { loginData } = useContext(AppContext);
-  const adminId = loginData.admin.id;
+  const adminId = loginData?.admin?.id;
 
   useEffect(() => {
     const fetchEvents = () => {

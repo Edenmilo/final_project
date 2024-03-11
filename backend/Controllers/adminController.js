@@ -5,13 +5,14 @@ const jwt = require("jsonwebtoken");
 
 exports.createAdmin = async (req, res) => {
   try {
-    const { username, password, phoneNumber } = req.body;
+    const { email, username, password, phoneNumber } = req.body;
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create the admin with hashed password and no users
     const newAdmin = await Admin.create({
+      email,
       username,
       password: hashedPassword,
       phoneNumber,
@@ -25,20 +26,19 @@ exports.createAdmin = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    // Find if the username is for admin or user
     let person;
     let admin;
     let user;
-    person = await User.findOne({ where: { username } });
+    person = await User.findOne({ where: { email } });
 
     if (person) {
       user = person;
     }
     if (!person) {
-      person = await Admin.findOne({ where: { username } });
+      person = await Admin.findOne({ where: { email } });
       admin = person;
 
     }
@@ -46,7 +46,6 @@ exports.login = async (req, res) => {
     if (
       !admin &&
       user) {
-      //case the username belongs to user and not to admin.
       const isUserPasswordValid = await bcrypt.compare(password, user.password);
       if (!isUserPasswordValid) {
         return res.status(401).json({ error: "Incorrect password" });
