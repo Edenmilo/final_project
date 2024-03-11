@@ -21,7 +21,7 @@ function App() {
             <Route path="/social" element={<Social />} />
             <Route path="/social/workouts" element={<Workouts />} />
             <Route path="/social/workouts/exercises" element={<Exercises />} />
-            <Route path="/userslist" element={<UsersList />} />
+            <Route path="/usersList" element={<UsersList />} />
           </Routes>
         </BrowserRouter>
       </ContextProvider>
