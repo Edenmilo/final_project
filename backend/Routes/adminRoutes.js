@@ -4,11 +4,11 @@ const router = express.Router();
 
 
 
-router.post('/create', verifyToken, createUser);
 
 router.get('/:adminId', getAdminById)
 router.post('/login', login);
 router.post('/logout', logout);
+router.post('/createuser', verifyToken, createUser);
 
 
 
