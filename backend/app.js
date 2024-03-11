@@ -2,17 +2,17 @@ const express = require('express');
 const adminRoutes = require('./Routes/adminRoutes');
 const socialRoute = require('./Routes/socialRoutes')
 const userRoutes = require('./Routes/userRoutes');
-const eventsRoutes = require('./Routes/eventsRouts');
+const eventsRoutes = require('./Routes/eventsRoutes');
 const adminController = require("./Controllers/adminController");
-const userController = require("./Controllers/userControllers");
+const socialController=require('./Controllers/socialControllers')
 const cors = require('cors')
 
 const app = express();
 app.use(cors())
 app.use(express.json());
 app.post('/admin/login', adminController.login);
-app.post('admin/create', adminController.createAdmin);
-
+app.post('/admin/create', adminController.createAdmin);
+app.post('/social/create',socialController.createPost )
 const cookieParser = require("cookie-parser");
 
 app.use(cookieParser());

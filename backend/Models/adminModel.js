@@ -30,8 +30,12 @@ const Event = sequelize.define('Event', {
   finishTime: DataTypes.DATE,
   studentsLimit: DataTypes.INTEGER,
   summary: DataTypes.TEXT,
-  createdBy: DataTypes.INTEGER,
+  createdBy: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
 });
+
 const EventUser = sequelize.define('EventUser', {
   UserId: DataTypes.INTEGER,
   EventId: DataTypes.INTEGER
@@ -39,9 +43,13 @@ const EventUser = sequelize.define('EventUser', {
 
 
 Admin.hasMany(Event);
+
 Event.belongsToMany(User, { through: 'EventUser' });
 User.belongsToMany(Event, { through: 'EventUser' });
+
 User.belongsTo(Admin,{foreignKey:'AdminId'});
+Event.belongsTo(Admin,{foreignKey:'createdBy'});
 Admin.hasMany(Social)
 Social.belongsTo(Admin, { foreignKey: 'createdBy' });
+
 module.exports = { Admin, Event, EventUser };;

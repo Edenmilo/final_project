@@ -29,10 +29,23 @@ exports.login = async (req, res) => {
 
   try {
     // Find if the username is for admin or user
-    const admin = await Admin.findOne({ where: { username } });
-    const user = await User.findOne({ where: { username } });
+    let person;
+    let admin;
+    let user;
+    person = await User.findOne({ where: { username } });
 
-    if (!admin && user) {
+    if (person) {
+      user = person;
+    }
+    if (!person) {
+      person = await Admin.findOne({ where: { username } });
+      admin = person;
+
+    }
+
+    if (
+      !admin &&
+      user) {
       //case the username belongs to user and not to admin.
       const isUserPasswordValid = await bcrypt.compare(password, user.password);
       if (!isUserPasswordValid) {
@@ -75,14 +88,17 @@ exports.login = async (req, res) => {
         .json({ admin: admin, message: "Login successful" });
     }
 
-    if (!admin && !user) {
+    if (
+      !admin &&
+      !user) {
       return res.status(404).json({ error: "you arfe not exist" });
     }
   } catch (error) {
     console.error("Error during  login:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
-};
+}
+
 
 exports.verifyToken = async (req, res, next) => {
   const token = req.cookies.token;
@@ -126,5 +142,5 @@ exports.getAdminById = async (req, res) => {
 
 exports.logout = (req, res) => {
   res.clearCookie("token");
-  res.json({ message: "Logout successful" }); 
+  res.json({ message: "Logout successful" });
 };
