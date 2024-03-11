@@ -8,11 +8,10 @@ const socialController=require('./Controllers/socialControllers')
 const cors = require('cors')
 
 const app = express();
-app.use(cors())
 app.use(express.json());
-app.post('/admin/login', adminController.login);
-app.post('/admin/create', adminController.createAdmin);
-app.post('/social/create',socialController.createPost )
+// app.post('/admin/login', adminController.login);
+// app.post('/admin/create', adminController.createAdmin);
+// app.post('/social/create',socialController.createPost )
 const cookieParser = require("cookie-parser");
 
 app.use(cookieParser());
@@ -25,9 +24,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-app.use('/admin', adminRoutes);
 app.use('/event', eventsRoutes)
 app.use('/user', userRoutes)
-app.use(adminController.verifyToken);
 app.use('/social', socialRoute)
+app.use('/admin', adminRoutes);
+app.use(adminController.verifyToken);
+
 module.exports = app;

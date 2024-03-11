@@ -7,10 +7,8 @@ exports.createAdmin = async (req, res) => {
   try {
     const { email, username, password, phoneNumber } = req.body;
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the admin with hashed password and no users
     const newAdmin = await Admin.create({
       email,
       username,
@@ -50,7 +48,7 @@ exports.login = async (req, res) => {
       if (!isUserPasswordValid) {
         return res.status(401).json({ error: "Incorrect password" });
       }
-      const token = jwt.sign({ _id: user.id }, process.env.SECRET_JWT_KEY, {
+      const token = jwt.sign({ id: user.id }, process.env.SECRET_JWT_KEY, {
         expiresIn: "48h",
       });
 
@@ -72,7 +70,7 @@ exports.login = async (req, res) => {
         return res.status(401).json({ error: "Incorrect password" });
       }
 
-      const token = jwt.sign({ _id: admin.id }, process.env.SECRET_JWT_KEY, {
+      const token = jwt.sign({ id: admin.id }, process.env.SECRET_JWT_KEY, {
         expiresIn: "48h",
       });
 
@@ -110,7 +108,7 @@ exports.verifyToken = async (req, res, next) => {
   }
   try {
     const decodedToken = jwt.verify(token, process.env.SECRET_JWT_KEY);
-    const admin = await Admin.findByPK(decodedToken._id);
+    const admin = await Admin.findByPk(decodedToken.id);
     req.admin = admin;
     next();
   } catch (error) {
@@ -121,6 +119,47 @@ exports.verifyToken = async (req, res, next) => {
     });
   }
 };
+exports.createUser = async (req, res) => {
+  try {
+    const {
+      username,
+      fullName,
+      email,
+      password,
+      phoneNumber,
+      height,
+      weight,
+      age,
+      goalWeight,
+      bodyFat
+    } = req.body;
+    console.log(req.admin)
+     const AdminId = req.admin.id
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      username,
+      fullName,
+      email,
+      password: hashedPassword,
+      phoneNumber,
+      height,
+      weight,
+      age,
+      goalWeight,
+      bodyFat,
+      AdminId,
+    });
+
+    res.status(201).json({ message: "User created successfully", user });
+  } catch (error) {
+    console.error("Error signing up user:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
 
 exports.getAdminById = async (req, res) => {
   try {
