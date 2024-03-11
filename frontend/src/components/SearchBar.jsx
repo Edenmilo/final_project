@@ -12,6 +12,7 @@ function SearchBar({ users }) {
       );
     });
   }
+  console.log(searchedUser);
   return (
     <>
       <input
