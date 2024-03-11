@@ -117,7 +117,7 @@ function CreateUser({ users }) {
                 <label>Goal Weight:</label>
                 <input
                   type="number"
-                  {...register("goal", { required: true })}
+                  {...register("goalWeight", { required: true })}
                   placeholder="Kg"
                 />
                 <hr />
