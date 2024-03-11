@@ -7,10 +7,8 @@ exports.createAdmin = async (req, res) => {
   try {
     const { username, password, phoneNumber } = req.body;
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the admin with hashed password and no users
     const newAdmin = await Admin.create({
       username,
       password: hashedPassword,
@@ -28,7 +26,6 @@ exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Find if the username is for admin or user
     let person;
     let admin;
     let user;
@@ -46,7 +43,6 @@ exports.login = async (req, res) => {
     if (
       !admin &&
       user) {
-      //case the username belongs to user and not to admin.
       const isUserPasswordValid = await bcrypt.compare(password, user.password);
       if (!isUserPasswordValid) {
         return res.status(401).json({ error: "Incorrect password" });

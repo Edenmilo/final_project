@@ -91,7 +91,7 @@ exports.getUserInfo = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
     const user = await User.findByPk(userId);
 
     if (!user) {
@@ -110,8 +110,7 @@ exports.updateUser = async (req, res) => {
       menu,
     } = req.body;
 
-    let updatedWeights = user.weight || [];
-
+    let updatedWeights = Array.isArray(user.weight) ? [...user.weight] : [];
     if (weight !== undefined) {
       updatedWeights.push(weight);
 

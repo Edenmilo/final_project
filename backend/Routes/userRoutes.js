@@ -6,7 +6,7 @@ const {createUser, getUsersForAdmin, getUserInfo, updateUser, deleteUser} = requ
 
 router.post('/create', createUser);
 router.post('/adminusers', getUsersForAdmin);
-router.post('/info', getUserInfo);
+router.post('/:userId/info', getUserInfo);
 router.post('/update', updateUser);
 router.delete('/delete', deleteUser);
 
