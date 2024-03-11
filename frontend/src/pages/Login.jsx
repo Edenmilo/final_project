@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+axios.defaults.withCredentials = true
+
 function Login() {
   const { loginData, setLoginData } = useContext(AppContext);
 
@@ -17,34 +20,21 @@ function Login() {
   const onSubmit = (data) => {
     const { email, password } = data;
 
-    const loginIn = adminSchema; // adminSchema will be the data we received from the api call
-    if (loginIn === "Admin") {
-      if (loginIn.email === email && loginIn.password === password) {
-        console.log("Admin", loginIn.id);
-        setLoginData(loginIn);
-        navigate("/");
-      }
-    } else if (loginIn === "User") {
-      if (loginIn.email === email && loginIn.password === password) {
-        console.log("Admin", loginIn.id);
-        setLoginData(loginIn);
-        navigate("/homePage");
-      }
-    } else {
-      console.log("");
-    }
+    axios.post("http://localhost:3306/admin/login", { email, password })
 
-    if (loginIn.email === email && loginIn.password === password) {
-      console.log("Admin:", loginIn);
+      .then((response) => {
+        if (response.data["admin"]) {
+          navigate("/");
+        }
+        if (response.data["user"]) {
+          navigate("/homePage");
+        } else {
+          console.log("Invalid email or password");
+        }
+        setLoginData(response.data);
+      });
 
-      return (
-        setLoginData(admin),
-        localStorage.setItem("loginData", JSON.stringify(admin)),
-        navigate("/")
-      );
-    } else {
-      console.log("Invalid email or password");
-    }
+    reset();
   };
   console.log(loginData);
   return (
@@ -82,7 +72,7 @@ function Login() {
                 className="mt-1 w-full border-b bg-black-50 text-white-50 text-[0.9rem]"
                 placeholder="Password"
                 {...register("password", {
-                  minLength: 8,
+                  minLength: 3,
                   maxLength: 14,
                   required: true,
                 })}

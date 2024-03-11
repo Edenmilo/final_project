@@ -2,33 +2,10 @@ import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AppContext } from "../context/AppContext";
 import "./createUser.css";
+import axios from 'axios';
 
-function CreateUser({ users }) {
-  //in userslist we gets the users array and we send it into here, updating it, asendimg update request to the server. in users list we doing fetch to the users list in use effect.
-
-  const {
-    fullName,
-    setFullName,
-    userName,
-    setUserName,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    phoneNumber,
-    setPhoneNumber,
-    height,
-    setHeight,
-    weight,
-    setWeight,
-    age,
-    setAge,
-    goalWeight,
-    setGoalWeight,
-    fatPercent,
-    setFatPercent,
-  } = useContext(AppContext);
-
+function CreateUser() {
+  const { setLoginData } = useContext(AppContext);
   const {
     register,
     handleSubmit,
@@ -37,6 +14,7 @@ function CreateUser({ users }) {
   } = useForm();
 
   const [currentPage, setCurrentPage] = useState(1);
+
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   };
@@ -44,9 +22,16 @@ function CreateUser({ users }) {
   const prevPage = () => {
     setCurrentPage(currentPage - 1);
   };
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3306/admin/create", data);
+      console.log(response.data);
+      setLoginData(response.data);
+      reset();
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
   };
 
   return (
@@ -57,25 +42,19 @@ function CreateUser({ users }) {
             onSubmit={handleSubmit(onSubmit)}
             className="add-user-form flex flex-col items-center justify-center p-[1rem] w-[30vw]"
           >
-            {/* Page 1 */}
             {currentPage === 1 && (
               <>
                 <label>Full Name:</label>
-                <input
-                  type="text"
-                  {...register("fullName", { minLength: 3, maxLength: 20 })}
-                />
+                <input type="text" {...register("fullName", { minLength: 3, maxLength: 20 })} />
                 <hr />
                 <label>Email:</label>
-                <input
-                  type="email"
-                  {...register("email", { minLength: 3, maxLength: 20 })}
-                />
+                <input type="email" {...register("email", { minLength: 3, maxLength: 20 })} />
                 <label>User Name:</label>
                 <input
                   type="text"
-                  {...register("userName", { minLength: 3, maxLength: 20 })}
+                  {...register("username", { minLength: 3, maxLength: 20 })}
                 />
+
                 <hr />
                 <label>Password:</label>
                 <input
@@ -84,25 +63,15 @@ function CreateUser({ users }) {
                 />
                 <hr />
                 <label>Phone Number: </label>
-                <input
-                  type="phone"
-                  {...register("phone", { minLength: 9, maxLength: 11 })}
-                />
+                <input type="phone" {...register("phoneNumber", { minLength: 9, maxLength: 11 })} />
                 <hr />
-                {/* Add other fields for the first page */}
                 <div className="flex justify-end mt-4 w-[30vw]">
-                  <button
-                    type="button"
-                    onClick={nextPage}
-                    className="btn-next p-[10px] pr-[15px] "
-                  >
+                  <button type="button" onClick={nextPage} className="btn-next p-[10px] pr-[15px] ">
                     Next
                   </button>
                 </div>
               </>
             )}
-
-            {/* Page 2 */}
             {currentPage === 2 && (
               <>
                 <label>Height:</label>
@@ -115,16 +84,20 @@ function CreateUser({ users }) {
                 <input type="number" {...register("age", { required: true })} />
                 <hr />
                 <label>Goal Weight:</label>
+<<<<<<< HEAD
                 <input
                   type="number"
                   {...register("goalWeight", { required: true })}
                   placeholder="Kg"
                 />
+=======
+                <input type="number" {...register("goalWeight", { required: true })} placeholder="Kg" />
+>>>>>>> ebb76b9bdd6cd2ae77a2228162b1c41a983d5717
                 <hr />
                 <label>Fat Percentage</label>
                 <input
                   type="number"
-                  {...register("fatPercent")}
+                  {...register("bodyFat")}
                   min={0}
                   max={100}
                   placeholder="%"
@@ -137,11 +110,7 @@ function CreateUser({ users }) {
                   >
                     Create User
                   </button>
-                  <button
-                    type="button"
-                    onClick={prevPage}
-                    className="btn-prev self-start p-[10px]"
-                  >
+                  <button type="button" onClick={prevPage} className="btn-prev self-start p-[10px]">
                     Back
                   </button>
                 </div>

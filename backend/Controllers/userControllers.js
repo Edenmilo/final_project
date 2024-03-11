@@ -1,45 +1,6 @@
 const { Admin, Event, EventUser } = require("../Models/adminModel");
 const User = require("../Models/userModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
-exports.createUser = async (req, res) => {
-  try {
-    const {
-      username,
-      fullName,
-      email,
-      password,
-      phoneNumber,
-      height,
-      weight,
-      age,
-      goalWeight,
-      bodyFat,
-      adminId,
-    } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await User.create({
-      username,
-      fullName,
-      email,
-      password: hashedPassword,
-      phoneNumber,
-      height,
-      weight,
-      age,
-      goalWeight,
-      bodyFat,
-      adminId,
-    });
-
-    res.status(201).json({ message: "User created successfully", user });
-  } catch (error) {
-    console.error("Error signing up user:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
 
 exports.getUsersForAdmin = async (req, res) => {
   try {
