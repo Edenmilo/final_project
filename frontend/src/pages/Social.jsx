@@ -3,26 +3,64 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Social() {
-  // use Effect for all the posts !!!
-  //
-  // const handelCategory = ({workoutName}) => {
-
-  // }
-  // in every clicked category its send to the Workouts.jsx page the admin workouts
-  const { loginData, setLoginData } = useContext(AppContext);
+  // const { loginData, setLoginData } = useContext(AppContext);
+  // const id = loginData.id;
   const navigate = useNavigate();
-  const workoutData = [
+  const { workoutData, setWorkoutData, workoutCategory, setWorkoutCategory } =
+    useContext(AppContext);
+  const socialSchema = [
+    // demo database
     {
       workoutImg:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/aaea3dc98b7f88ca0b9725311bcbca41b66ada986ca25a898b87751f412dd57e?apiKey=965fd9b505a64ba491bd6169c5185d54&",
       workoutName: "Chest workout",
       workoutType: "Chest",
+      exercises: {
+        1: {
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
+          alt: "Profile picture of Jennifer James",
+          name: "Bench press",
+          level: "5",
+          expertise: "Functional",
+          experience: "4 years",
+          type: "Chest",
+        },
+        2: {
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
+          alt: "Profile picture of Jennifer James",
+          name: "Bench press",
+          level: "5",
+          expertise: "Functional",
+          experience: "4 years",
+          type: "Chest",
+        },
+        3: {
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
+          alt: "Profile picture of Richard Will",
+          name: "Butterfly",
+          level: "4",
+          expertise: "High Intensity Training",
+          experience: "5 years",
+          type: "Chest",
+        },
+      },
     },
     {
       workoutImg:
         "https://cdn.builder.io/api/v1/image/assets/TEMP/aa13837c4954df6adbb7bab7a21ed3aee394735aedd2ada40de03745b37af35e?apiKey=965fd9b505a64ba491bd6169c5185d54&",
       workoutName: "Lats workout",
       workoutType: "Lats",
+      exercises: {
+        1: {
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
+          alt: "Profile picture of Jennifer James",
+          name: "Functional Str",
+          level: "5",
+          expertise: "Functional Strength h",
+          experience: "4 years",
+          type: "Lats",
+        },
+      },
     },
     {
       workoutImg:
@@ -35,6 +73,17 @@ function Social() {
         "https://cdn.builder.io/api/v1/image/assets/TEMP/766cb171de991b261822884f96e9af709299995027bfffccf8594b08bc35065f?apiKey=965fd9b505a64ba491bd6169c5185d54&",
       workoutName: "Legs workout",
       workoutType: "Legs",
+      exercises: {
+        1: {
+          src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
+          alt: "Profile picture of Jennifer James",
+          name: "lunches",
+          level: "5",
+          expertise: "Functional Strength",
+          experience: "4 years",
+          type: "Legs",
+        },
+      },
     },
     {
       workoutImg:
@@ -61,19 +110,23 @@ function Social() {
       workoutType: "Full Body workout",
     },
   ];
+
+  useEffect(() => {
+    setWorkoutData(socialSchema);
+  }, []);
+  console.log(workoutData);
+
   const handleWorkoutClick = ({ workoutType }) => {
-    setLoginData((prevLoginData) => ({
-      ...prevLoginData,
-      workoutType: workoutType,
-    }));
+    setWorkoutCategory(workoutType);
 
     navigate("/social/workouts");
   };
+  console.log(workoutCategory);
 
-  const WorkoutCard = ({ workoutImg, workoutName, workoutType }) => (
+  const WorkoutCard = ({ workoutImg, workoutName, workoutType, exercises }) => (
     <div
       className="social-img justify-center items-center"
-      onClick={() => handleWorkoutClick({ workoutType })}
+      onClick={() => handleWorkoutClick({ workoutType, exercises })}
     >
       <div className="flex relative flex-col pt-12 pr-12 pb-4 pl-4 w-40 aspect-square ">
         <img
@@ -98,7 +151,7 @@ function Social() {
             <div className="self-center text-[2rem] mt-[2vh] font-semibold text-neon-50">
               Social
             </div>
-            <div className="flex flex-wrap gap-2.5 justify-center mt-[4vh]  ">
+            <div className="flex flex-wrap gap-2.5 justify-center mt-[4vh]">
               {/* for navbar workouts  */}
               {workoutData.map((workout, index) => (
                 <button key={index}>

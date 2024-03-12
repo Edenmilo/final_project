@@ -76,7 +76,7 @@ function Calendar() {
             <Popover.Root>
               <Popover.Trigger asChild>
                 <button
-                  className="w-full h-full flex items-center justify-center text-violet11 bg-white text-[0.7rem] shadow-blackA4 hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black cursor-default outline-none"
+                  className="w-full h-full flex items-center justify-center text-violet11 bg-white text-[0.7rem] shadow-blackA4 hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-black-50 cursor-default outline-none"
                   aria-label="Update dimensions"
                 >
                   {eventInfo.event.title}
@@ -84,7 +84,7 @@ function Calendar() {
               </Popover.Trigger>
               <Popover.Portal>
                 <Popover.Content
-                  className="rounded p-5 z-50 w-[30vw] bg-gray-50 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)] focus:shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2),0_0_0_2px_theme(colors.violet7)] will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+                  className="rounded p-5 z-50 w-[30vw] bg-gray-50 shadow-[0_10px_38px_-10px_hsla(206,22%,7%,.35),0_10px_20px_-15px_hsla(206,22%,7%,.2)]  will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
                   sideOffset={7}
                   align="center"
                   avoidCollisions
@@ -189,7 +189,7 @@ function Calendar() {
     <>
       {/* calender container */}
       <div className="calendar-container w-full flex flex-col items-center mt-[3%]">
-        <h2 className="admin-home-page-header p-[5%] text-[1.6rem]">
+        <h2 className="admin-home-page-header p-[5%] text-[2.2rem] text-neon-50">
           Admin Home page
         </h2>
         <div className="FullCalender-section w-[90%] h-auto bg-gray-50 rounded-[5%]">
@@ -233,7 +233,7 @@ function Calendar() {
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay className="data-[state=open]:animate-overlayShow z-40 bg-black-50 opacity-[0.5] fixed inset-0" />
-            <Dialog.Content className="data-[state=open]:animate-contentShow z-50 bg-gray-50  h-[80vh] w-[40vw] text-white-50 fixed flex flex-col items-center justify-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-[20px] p-[2%]  focus:outline-none">
+            <Dialog.Content className="data-[state=open]:animate-contentShow z-50 bg-gray-50  h-[80vh] w-[40vw] text-white-50 fixed flex flex-col items-center justify-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-[20px] p-[5%] focus:outline-none">
               <form
                 onSubmit={() => {
                   handleSubmit(onSubmit);
@@ -250,43 +250,47 @@ function Calendar() {
                 </Dialog.Description>
                 <div className="add-event-inputs-box w-full h-full flex flex-col items-center justify-center gap-[1rem]">
                   <input
-                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center rounded-[0.5rem] text-[0.7rem] shadow-[0_0_0_1px] focus:shadow-[0_0_0_2px]"
+                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center text-[0.7rem] border-b bg-gray-50 border-neon-50 focus:outline-none"
                     id="title"
                     placeholder="  Title"
                     {...register("title", { min: 3, max: 12 })}
                   />
                   {/* {errors.title && <span>title require</span>} */}
 
-                  <div className="start-end-event-inputs flex flex-col flex-wrap items-center justify-center">
-                    <label
-                      htmlFor="start"
-                      className="text-[0.8rem] font-medium w-full flex flex-col items center"
-                    >
-                      Starts At:
-                      <input
-                        className="text-white-50 shadow-black-50 flex h-[5vh] items-center justify-center rounded-[0.5rem] text-[0.6rem] shadow-[0_0_0_1px] "
-                        id="start"
-                        placeholder="  Workout Starts At:"
-                        type="datetime-local"
-                        {...register("start", { min: todayFormat, max: 12 })}
-                      />
-                    </label>
-                    <label
-                      htmlFor="end"
-                      className="text-[0.8rem] font-medium w-full flex flex-col items center"
-                    >
-                      End At:
-                      <input
-                        className="text-white-50 shadow-black-50 flex h-[5vh] items-center justify-center rounded-[0.5rem] text-[0.6rem] shadow-[0_0_0_1px] "
-                        id="end"
-                        placeholder="Workout Ends At:"
-                        type="datetime-local"
-                        {...register("end", { min: todayFormat, max: 12 })}
-                      />
-                    </label>
+                  <div className="start-end-event-inputs w-full flex items-center justify-evenly">
+                    <div className="start-input-box">
+                      <label
+                        htmlFor="start"
+                        className="text-[0.8rem] font-medium flex flex-col items center"
+                      >
+                        Starts At:
+                        <input
+                          className="text-white-50 shadow-black-50 flex w-[12vw] h-[5vh] items-center justify-center text-[0.6rem] border-b bg-gray-50 border-neon-50 focus:outline-none "
+                          id="start"
+                          placeholder="  Workout Starts At:"
+                          type="datetime-local"
+                          {...register("start", { min: todayFormat, max: 12 })}
+                        />
+                      </label>
+                    </div>
+                    <div className="end-input-box">
+                      <label
+                        htmlFor="end"
+                        className="text-[0.8rem] font-medium flex flex-col items center"
+                      >
+                        End At:
+                        <input
+                          className="text-white-50 shadow-black-50 flex w-[12vw] h-[5vh] items-center justify-center text-[0.6rem] border-b bg-gray-50 border-neon-50 focus:outline-none "
+                          id="end"
+                          placeholder="Workout Ends At:"
+                          type="datetime-local"
+                          {...register("end", { min: todayFormat, max: 12 })}
+                        />
+                      </label>
+                    </div>
                   </div>
                   <input
-                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center rounded-[0.5rem] text-[0.7rem] shadow-[0_0_0_1px] "
+                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center text-[0.7rem] border-b bg-gray-50 border-neon-50 focus:outline-none"
                     id="maxStudents"
                     placeholder="  Maximum number of students"
                     type="text"
@@ -294,7 +298,7 @@ function Calendar() {
                   />
 
                   <input
-                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center rounded-[4px] text-[0.7rem] shadow-[0_0_0_1px]"
+                    className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center text-[0.7rem] border-b bg-gray-50 border-neon-50 focus:outline-none"
                     id="textBox"
                     placeholder="  Give us some words about the workout..."
                     {...register("textBox")}
@@ -304,7 +308,7 @@ function Calendar() {
                   <Dialog.Close asChild>
                     <button
                       type="submit"
-                      className="bg-green4 text-green11 hover:bg-green5 focus:shadow-green7 flex h-[5vh] items-center justify-center rounded-[4px] px-[0.7rem] font-medium"
+                      className="bg-green4 text-green11 hover:bg-green5 focus:shadow-green7 flex h-[5vh] items-center justify-center rounded-[1rem] px-[0.7rem] font-medium"
                     >
                       Save changes
                     </button>
