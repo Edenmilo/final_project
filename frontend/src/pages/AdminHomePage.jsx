@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import Calendar from "../components/Calendar";
+import Calendar from "../components/calendar";
 import CreateUser from "../components/CreateUser";
 
 function AdminHomePage() {
