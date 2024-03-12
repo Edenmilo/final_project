@@ -19,10 +19,9 @@ const corsOptions = {
     origin: "http://localhost:5173",
     credentials: true,
 };
-
+ 
 app.use(cors(corsOptions));
 
-app.use(adminController.verifyToken);
 
 app.use('/event', eventsRoutes)
 app.use('/user', userRoutes)

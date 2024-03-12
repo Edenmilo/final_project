@@ -88,7 +88,7 @@ exports.login = async (req, res) => {
     if (
       !admin &&
       !user) {
-      return res.status(404).json({ error: "you arfe not exist" });
+      return res.status(404).json({ error: "user not exist" });
     }
   } catch (error) {
     console.error("Error during  login:", error);
