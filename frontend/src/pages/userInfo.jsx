@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-
+import Graph from "./graph";
 function UserInfo() {
   const [userInfo, setUserInfo] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -186,6 +186,9 @@ function UserInfo() {
           <button onClick={handleUpdateUser}>Save</button>
         )}
       </div>  
+      <div>
+      <Graph data={userInfo.weight} />
+      </div>
         </div>
   );
 }

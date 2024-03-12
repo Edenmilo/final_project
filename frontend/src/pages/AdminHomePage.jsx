@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import Calendar from "../components/calendar";
 import CreatePost from "../components/CreatePost";
+import { AppContext } from "../context/AppContext";
 
 
 function AdminHomePage() {
