@@ -25,7 +25,7 @@ function Login() {
 
       .then((response) => {
         if (response.data["admin"]) {
-          navigate("/");
+          navigate("/adminHomePage");
         }
         if (response.data["user"]) {
           navigate("/homePage");

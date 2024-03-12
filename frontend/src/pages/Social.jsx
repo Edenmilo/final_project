@@ -8,6 +8,7 @@ function Social() {
   const navigate = useNavigate();
   const { workoutData, setWorkoutData, workoutCategory, setWorkoutCategory } =
     useContext(AppContext);
+
   const socialSchema = [
     // demo database
     {
