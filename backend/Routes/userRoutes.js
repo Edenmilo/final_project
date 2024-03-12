@@ -3,7 +3,6 @@ const router = express.Router();
 const {getUsersForAdmin, getUserInfo, updateUser, deleteUser} = require('../Controllers/userControllers');
 
 
-router.post('/adminusers', getUsersForAdmin);
 router.get('/info/:userId', getUserInfo);
 router.post('/info/:userId/update', updateUser);
 router.delete('/info/:userId/delete', deleteUser);

@@ -6,10 +6,10 @@ function Graph({ data }) {
   const chartInstance = useRef(null);
 
   useEffect(() => {
-    if (!data || data.length === 0) return;
+    if (!data || !Array.isArray(data) || data.length === 0) return;
 
     if (chartInstance.current) {
-      chartInstance.current.destroy(); // Destroy the existing chart instance
+      chartInstance.current.destroy(); 
     }
 
     const ctx = chartRef.current.getContext("2d");
@@ -44,14 +44,14 @@ function Graph({ data }) {
               text: "Weight",
             },
             ticks: {
-                stepSize: 1, 
-                precision: 0
+              stepSize: 1, 
+              precision: 0
             },
+          },
         },
       },
-    },
-  });
-}, [data]);
+    });
+  }, [data]);
 
   return <canvas ref={chartRef} />;
 }
