@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CreateUser from "../components/CreateUser";
-
 function UsersList() {
   const [users, setUsers] = useState([]);
   const [searchedUser, setSearchedUser] = useState("");
@@ -11,7 +10,7 @@ function UsersList() {
     const fetchUsersForAdmin = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3306/user/adminusers"
+          "http://localhost:3306/admin/adminusers"
         );
         setUsers(response.data);
       } catch (error) {

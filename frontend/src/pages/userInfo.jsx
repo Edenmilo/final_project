@@ -170,7 +170,6 @@ function UserInfo() {
             <p>Email: {userInfo.email}</p>
             <p>Phone Number: {userInfo.phoneNumber}</p>
             <p>Height: {userInfo.height}</p>
-            <p>Weight: {userInfo.weight}</p>
             <p>Age: {userInfo.age}</p>
             <p>Goal Weight: {userInfo.goalWeight}</p>
             <p>Body Fat: {userInfo.bodyFat}</p>

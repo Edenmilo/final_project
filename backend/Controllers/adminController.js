@@ -181,3 +181,15 @@ exports.logout = (req, res) => {
   res.clearCookie("token");
   res.json({ message: "Logout successful" });
 };
+exports.getUsersForAdmin = async (req, res) => {
+  try {
+    const AdminId = req.admin.id
+
+    const users = await User.findAll({ where: { AdminId: AdminId } });
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
