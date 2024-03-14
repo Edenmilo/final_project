@@ -34,7 +34,6 @@ function Exercises() {
       <div className="exercise-container w-screen h-screen flex flex-col items-center justify-center">
         <div className="exercise-card w-[40%] h-[90%] bg-black-50 overflow-y-auto">
           <div className="exercise-box flex flex-col h-full w-full relative">
-            {/* her will by the video */}
             <section className="exercise-section flex overflow-hidden relative justify-center items-start pt-[100%] w-full aspect-[1.11]">
               <img
                 loading="lazy"
