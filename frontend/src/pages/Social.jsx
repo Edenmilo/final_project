@@ -8,6 +8,7 @@ function Social() {
   const navigate = useNavigate();
   const { workoutData, setWorkoutData, workoutCategory, setWorkoutCategory } =
     useContext(AppContext);
+
   const socialSchema = [
     // demo database
     {
@@ -22,7 +23,7 @@ function Social() {
           name: "Bench press",
           level: "5",
           expertise: "Functional",
-          experience: "4 years",
+
           type: "Chest",
         },
         2: {
@@ -31,7 +32,7 @@ function Social() {
           name: "Bench press",
           level: "5",
           expertise: "Functional",
-          experience: "4 years",
+
           type: "Chest",
         },
         3: {
@@ -40,7 +41,7 @@ function Social() {
           name: "Butterfly",
           level: "4",
           expertise: "High Intensity Training",
-          experience: "5 years",
+
           type: "Chest",
         },
       },
@@ -57,7 +58,7 @@ function Social() {
           name: "Functional Str",
           level: "5",
           expertise: "Functional Strength h",
-          experience: "4 years",
+
           type: "Lats",
         },
       },
@@ -67,6 +68,26 @@ function Social() {
         "https://cdn.builder.io/api/v1/image/assets/TEMP/2cbd6a1db85cb7fa70ef07e5017b8028a26e77760bbda7f86f5e1ab19af556c9?apiKey=965fd9b505a64ba491bd6169c5185d54&",
       workoutName: "Abs workout",
       workoutType: "Abs workout",
+      exercises: {
+        2: {
+          src: "https://example.com/abs-exercise2.jpg",
+          alt: "Abs Exercise 2",
+          name: "Russian Twists",
+          level: "3",
+          expertise: "Core Training",
+
+          type: "Abs workout",
+        },
+        3: {
+          src: "https://example.com/abs-exercise3.jpg",
+          alt: "Abs Exercise 3",
+          name: "Leg Raises",
+          level: "4",
+          expertise: "Isolation",
+
+          type: "Abs workout",
+        },
+      },
     },
     {
       workoutImg:
@@ -80,7 +101,16 @@ function Social() {
           name: "lunches",
           level: "5",
           expertise: "Functional Strength",
-          experience: "4 years",
+
+          type: "Legs",
+        },
+        2: {
+          src: "https://example.com/legs-exercise2.jpg",
+          alt: "Legs Exercise 2",
+          name: "Squats",
+          level: "5",
+          expertise: "Compound Movement",
+
           type: "Legs",
         },
       },
@@ -147,7 +177,7 @@ function Social() {
     <>
       <div className="social-container h-screen w-screen flex items-center justify-center phone:bg-black-50 ">
         <div className="social-card w-[40vw] max-h-[90vh] overflow-y-auto no-scrollbar phone:w-screen phone:h-screen phone:w-screen  ">
-          <div className="social-box flex flex-col text-sm text-neon-50 whitespace-nowrap bg-black-50 phone:w-screen phone:h-screen  ">
+          <div className="social-box w-[95%] flex flex-col text-sm text-neon-50 whitespace-nowrap bg-black-50 phone:w-screen phone:h-screen  ">
             <div className="self-center text-[2rem] mt-[2vh] font-semibold text-neon-50">
               Social
             </div>

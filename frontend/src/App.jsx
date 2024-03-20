@@ -16,15 +16,15 @@ function App() {
       <ContextProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<AdminHomePage />} />
+            <Route path="/adminHomePage" element={<AdminHomePage />} />
             <Route path="/homePage" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/social" element={<Social />} />
             <Route path="/social/workouts" element={<Workouts />} />
             <Route path="/social/workouts/exercises" element={<Exercises />} />
             <Route path="/usersList" element={<UsersList />} />
-            <Route path="/user/info/:userId" element={<UserInfo />} />         
-             </Routes>
+            <Route path="/user/info/:userId" element={<UserInfo />} />
+          </Routes>
         </BrowserRouter>
       </ContextProvider>
     </>

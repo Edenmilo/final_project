@@ -102,7 +102,7 @@ function Calendar() {
                             className="w-full inline-flex items-center justify-center rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
                             id="title"
                             defaultValue={eventInfo.event.title}
-                            // readOnly
+                            readOnly
                           />
                         </div>
                       </fieldset>
@@ -113,7 +113,7 @@ function Calendar() {
                             className="w-full inline-flex items-center justify-center rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
                             id="start"
                             defaultValue={eventInfo.event.start.toLocaleString()}
-                            // readOnly
+                            readOnly
                             // {...register("start")}
                           />
                         </div>
@@ -125,8 +125,7 @@ function Calendar() {
                             className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
                             id="end"
                             defaultValue={eventInfo.event.end.toLocaleString()}
-                            // readOnly
-                            // {...register("end")}
+                            readOnly
                           />
                         </div>
                       </fieldset>
@@ -137,7 +136,7 @@ function Calendar() {
                             className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
                             id="maxStudents"
                             defaultValue={studentsLimit}
-                            // readOnly
+                            readOnly
                             {...register("maxStudents")}
                           />
                         </div>
@@ -146,10 +145,10 @@ function Calendar() {
                         Summary
                         <div className="w-full">
                           <input
-                            className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[25px] focus:shadow-[0_0_0_2px] focus:shadow-violet8 outline-none"
+                            className="w-full inline-flex items-center justify-center flex-1 rounded px-2.5 text-[13px] leading-none text-violet11 shadow-[0_0_0_1px] shadow-violet7 h-[4vh] focus:outline-none"
                             id="textBox"
                             defaultValue={summary}
-                            // readOnly
+                            readOnly
                             {...register("textBox")}
                           />
                         </div>
@@ -233,13 +232,13 @@ function Calendar() {
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay className="data-[state=open]:animate-overlayShow z-40 bg-black-50 opacity-[0.5] fixed inset-0" />
-            <Dialog.Content className="data-[state=open]:animate-contentShow z-50 bg-gray-50  h-[80vh] w-[40vw] text-white-50 fixed flex flex-col items-center justify-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-[20px] p-[5%] focus:outline-none">
+            <Dialog.Content className="data-[state=open]:animate-contentShow z-50 bg-gray-50  h-[80vh] w-[40vw] text-white-50 fixed flex flex-col items-center justify-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded-[20px] p-[5%] focus:outline-none phone:w-[85%] phone:p-[1rem]">
               <form
                 onSubmit={() => {
                   handleSubmit(onSubmit);
                 }}
                 id="add-event-form"
-                className="radix-add-event-form p-[2%] fixed flex flex-col justify-center items-center h-full w-full gap-[1rem]"
+                className="radix-add-event-form p-[5%] fixed flex flex-col justify-center items-center h-full w-full gap-[1rem]"
               >
                 <Dialog.Title className="text-mauve12 m-0 text-[1.5rem] font-[700]">
                   Add Event
@@ -248,7 +247,7 @@ function Calendar() {
                 <Dialog.Description className="text-mauve11 mt-[10px] mb-5 text-[1rem]">
                   Add to your schedule another workout!
                 </Dialog.Description>
-                <div className="add-event-inputs-box w-full h-full flex flex-col items-center justify-center gap-[1rem]">
+                <div className="add-event-inputs-box w-full h-full flex flex-col items-center justify-center gap-[1rem]  phone:h-[90%]">
                   <input
                     className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center text-[0.7rem] border-b bg-gray-50 border-neon-50 focus:outline-none"
                     id="title"
@@ -308,7 +307,7 @@ function Calendar() {
                   <Dialog.Close asChild>
                     <button
                       type="submit"
-                      className="bg-green4 text-green11 hover:bg-green5 focus:shadow-green7 flex h-[5vh] items-center justify-center rounded-[1rem] px-[0.7rem] font-medium"
+                      className="bg-neon-50 text-black-50 flex h-[5vh] items-center justify-center rounded-[1rem] px-[0.7rem] font-medium"
                     >
                       Save changes
                     </button>
