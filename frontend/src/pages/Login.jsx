@@ -25,14 +25,16 @@ function Login() {
 
       .then((response) => {
         if (response.data["admin"]) {
+          setLoginData(response.data.admin);
           navigate("/adminHomePage");
         }
-        if (response.data["user"]) {
+        else if (response.data["user"]) {
+          setLoginData(response.data.user);
           navigate("/homePage");
         } else {
           console.log("Invalid email or password");
         }
-        setLoginData(response.data);
+       console.log(loginData);
       });
 
     reset();

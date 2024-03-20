@@ -9,8 +9,7 @@ function AdminHomePage() {
   const navigate = useNavigate();
   const { loginData, setLoginData } = useContext(AppContext);
   useEffect(() => {
-    setLoginData(localStorage.getItem("loginData"));
-    console.log(loginData);
+    console.log(loginData.id);
   });
   const handleUsersListClick = () => {
     navigate("/usersList"); 
