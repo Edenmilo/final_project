@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { AppContext } from "../context/AppContext";
 import "./createUser.css";
 import axios from "axios";
 
-function CreateUser() {
-  const { setLoginData } = useContext(AppContext);
+function CreateUser({fetchUsersForAdmin}) {
+  const { setLoginData,loginData } = useContext(AppContext);
   const {
     register,
     handleSubmit,
@@ -35,7 +35,9 @@ function CreateUser() {
       console.error("Error creating user:", error);
     }
   };
-
+useEffect(()=>{
+  fetchUsersForAdmin()
+}, [loginData])
   return (
     <>
       <div className="add-user-container w-full flex flex-col justify-center items-center relative">
