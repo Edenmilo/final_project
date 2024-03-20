@@ -2,28 +2,29 @@ import React, { useState } from "react";
 
 function SearchBar({ users }) {
   // i send from users list an array of all the users
-  const [searchedUser, setSearchedUesr] = useState("");
-  let fillteredList = [];
+  const [searchedUser, setSearchedUser] = useState("");
+  let filteredList = [];
   if (searchedUser) {
-    fillteredList = users.filter((user) => {
+    filteredList = users.filter((user) => {
       return (
         user.fullName.toLowerCase().includes(searchedUser.toLowerCase()) ||
         user.phoneNumber.includes(searchedUser)
       );
     });
   }
+  console.log(searchedUser);
   return (
     <>
       <input
         type="text"
         value={searchedUser}
-        onChange={(e) => setSearchedUesr(e.target.value)}
+        onChange={(e) => setSearchedUser(e.target.value)}
         placeholder="Search for students..."
+        className="searched-users-input w-[90%] h-[8vh] rounded-[10px] indent-[10px]"
       />
-      <hr />
 
-      <ul>
-        {fillteredList.map((item, index) => (
+      <div className="searched-users">
+        {filteredList.map((item, index) => (
           <li key={index}>
             {
               <ul>
@@ -31,11 +32,9 @@ function SearchBar({ users }) {
                 <li>{item.phoneNumber}</li>
               </ul>
             }
-            <hr />
           </li>
         ))}
-      </ul>
-      <hr />
+      </div>
     </>
   );
 }

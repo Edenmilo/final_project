@@ -8,6 +8,7 @@ import AdminHomePage from "./pages/AdminHomePage";
 import UsersList from "./pages/UsersList";
 import Exercises from "./pages/Exercises";
 import HomePage from "./pages/HomePage";
+import UserInfo from "./pages/userInfo";
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
             <Route path="/social" element={<Social />} />
             <Route path="/social/workouts" element={<Workouts />} />
             <Route path="/social/workouts/exercises" element={<Exercises />} />
-            <Route path="/userslist" element={<UsersList />} />
-          </Routes>
+            <Route path="/usersList" element={<UsersList />} />
+            <Route path="/user/info/:userId" element={<UserInfo />} />         
+             </Routes>
         </BrowserRouter>
       </ContextProvider>
     </>

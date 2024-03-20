@@ -16,7 +16,7 @@ const Social = sequelize.define('social', {
     allowNull: false
   },
   exercises: {
-    type: DataTypes.TEXT, // Storing exercises as JSON string
+    type: DataTypes.TEXT, 
     allowNull: false,
     get() {
       const exercises = this.getDataValue('exercises');
