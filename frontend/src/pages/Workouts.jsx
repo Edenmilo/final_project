@@ -5,66 +5,17 @@ import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 function Workouts() {
-  const exercise = [
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
-      alt: "Profile picture of Richard Will",
-      name: "Butterfly",
-      level: "4",
-      expertise: "High Intensity Training",
-      experience: "5 years",
-      type: "Chest",
-    },
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
-      alt: "Profile picture of Jennifer James",
-      name: "lunches",
-      level: "5",
-      expertise: "Functional Strength",
-      experience: "4 years",
-      type: "Legs",
-    },
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
-      alt: "Profile picture of Jennifer James",
-      name: "Functional Str",
-      level: "5",
-      expertise: "Functional Strength h",
-      experience: "4 years",
-      type: "Lats",
-    },
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
-      alt: "Profile picture of Jennifer James",
-      name: "Bench press",
-      level: "5",
-      expertise: "Functional",
-      experience: "4 years",
-      type: "Chest",
-    },
-    {
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZxvIyTfcNu0WxiTaIIKwSR0RC77L3HQdR-g&usqp=CAU",
-      alt: "Profile picture of Jennifer James",
-      name: "Bench press",
-      level: "5",
-      expertise: "Functional",
-      experience: "4 years",
-      type: "Chest",
-    },
-  ];
-
-  const { loginData, setLoginData } = useContext(AppContext);
-  useEffect(() => {
-    setLoginData(localStorage.getItem("loginData"));
-    console.log(loginData);
-  }); /// instead of loginData will be a state in the context
-
+  const { workoutData, setWorkoutData, workoutCategory } =
+    useContext(AppContext);
   const navigate = useNavigate();
-  const selectedWorkoutType = loginData.workoutType || "";
 
-  const filteredExercises = exercise.filter(
-    (ex) => ex.type === selectedWorkoutType
-  );
+  useEffect(() => {
+    const correctExercises = workoutData
+      .filter((workout) => workout.workoutType === workoutCategory)
+      .flatMap((workout) => Object.values(workout.exercises));
+
+    setWorkoutData(correctExercises);
+  }, [workoutCategory]);
 
   ////////////////////////////////////////////////////////////////////////////////////////
   const ExerciseCard = ({ src, name, level, expertise, experience, alt }) => (
@@ -128,7 +79,7 @@ function Workouts() {
               {/* {exercise.map((exercise, index) => (
                 <ExerciseCard key={index} {...exercise} />
               ))} */}
-              {filteredExercises.map((exercise, index) => (
+              {workoutData.map((exercise, index) => (
                 <ExerciseCard key={index} {...exercise} />
               ))}
             </section>
