@@ -37,7 +37,7 @@ function Calendar() {
     setEvents,
   } = useContext(AppContext);
 
-  // dont forget to get event by id from the DB
+ 
 
   const {
     register,

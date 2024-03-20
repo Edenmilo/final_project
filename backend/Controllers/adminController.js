@@ -88,7 +88,7 @@ exports.login = async (req, res) => {
     if (
       !admin &&
       !user) {
-      return res.status(404).json({ error: "you arfe not exist" });
+      return res.status(404).json({ error: "user not exist" });
     }
   } catch (error) {
     console.error("Error during  login:", error);
@@ -180,4 +180,16 @@ exports.getAdminById = async (req, res) => {
 exports.logout = (req, res) => {
   res.clearCookie("token");
   res.json({ message: "Logout successful" });
+};
+exports.getUsersForAdmin = async (req, res) => {
+  try {
+    const AdminId = req.admin.id
+
+    const users = await User.findAll({ where: { AdminId: AdminId } });
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
