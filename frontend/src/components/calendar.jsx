@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -12,16 +13,18 @@ import "./calender.css";
 
 function Calendar() {
   const { loginData } = useContext(AppContext);
-  const adminId = loginData?.admin?.id;
+  const adminId = loginData.id;  
+  // fetchEvents(adminId)
+  
+  
+  const fetchEvents = (adminId) => {
+    axios.post(`http://localhost:3306/event/${adminId}`).then((response) => {
+      setEvents(response);
+    
 
-  useEffect(() => {
-    const fetchEvents = () => {
-      axios.post(`http://localhost:3306/event/${adminId}`).then((response) => {
-        setEvents(response);
-      });
-    };
-  });
-
+    });
+  };
+  console.log(adminId);
   const {
     title,
     setTitle,
