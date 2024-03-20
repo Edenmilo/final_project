@@ -19,14 +19,14 @@ function Workouts() {
 
   ////////////////////////////////////////////////////////////////////////////////////////
   const ExerciseCard = ({ src, name, level, expertise, experience, alt }) => (
-    <div className="exercise-card bg-gray-50 flex items-center justify-evenly gap-[1rem] w-[95%] p-[3px] mt-[3vh] rounded-[10px] phone:w-[80%]">
+    <div className="exercise-card bg-gray-50 flex items-center justify-evenly gap-[1rem] w-[95%] p-[3px] mt-[3vh] rounded-[10px] phone:w-[90%]">
       <div className="exercise-content w-[100%] flex flex-row items-center justify-center">
         <div className="exercise-image">
           <img
             loading="lazy"
             src={src}
             alt={alt}
-            className="w-[3rem] rounded-full aspect-square "
+            className="w-[5rem] h-auto p-[5px] rounded-full aspect-square "
           />
         </div>
         <div className="exercise-content-box w-[100%] flex justify-between items-start shrink phone:h-full">
@@ -42,7 +42,7 @@ function Workouts() {
                 </div>
               </div>
             </div>
-            <div className="mt-[1vh] text-[0.5rem] text-neon-50 phone:text-[1rem]">
+            <div className="mt-[1vh] text-[0.5rem] text-neon-50 phone:text-[1rem] ">
               {" "}
               {expertise}{" "}
             </div>
@@ -69,7 +69,10 @@ function Workouts() {
                   navigate("/social");
                 }}
               >
-                <ArrowBackIosIcon sx={{ fontSize: 15 }} />
+                <ArrowBackIosIcon
+                  sx={{ fontSize: 15 }}
+                  className="phone:w-[2vw] h-[3vh]"
+                />
               </button>
               <h2 className="flex-auto self-start text-neon-50">
                 category name

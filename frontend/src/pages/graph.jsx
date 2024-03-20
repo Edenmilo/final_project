@@ -9,7 +9,7 @@ function Graph({ data }) {
     if (!data || !Array.isArray(data) || data.length === 0) return;
 
     if (chartInstance.current) {
-      chartInstance.current.destroy(); 
+      chartInstance.current.destroy();
     }
 
     const ctx = chartRef.current.getContext("2d");
@@ -44,8 +44,8 @@ function Graph({ data }) {
               text: "Weight",
             },
             ticks: {
-              stepSize: 1, 
-              precision: 0
+              stepSize: 1,
+              precision: 0,
             },
           },
         },
