@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { setCookie } from "../cookieHelper";
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -26,9 +27,13 @@ function Login() {
       .then((response) => {
         if (response.data["admin"]) {
           navigate("/adminHomePage");
+          const adminId=response.data["admin"]["id"]
+          setCookie('userId',adminId)
         }
-        if (response.data["user"]) {
+        else if (response.data["user"]) {
           navigate("/homePage");
+          const userId=response.data["user"]["id"]
+          setCookie('userId',userId)
         } else {
           console.log("Invalid email or password");
         }
