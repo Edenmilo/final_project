@@ -15,7 +15,7 @@ function App() {
     <>
       <ContextProvider>
         <BrowserRouter>
-          <Routes>
+          <Routes> 
             <Route path="/adminHomePage" element={<AdminHomePage />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/" element={<Login />} />
