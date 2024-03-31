@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
@@ -26,20 +27,23 @@ function Login() {
       .then((response) => {
         if (response.data["admin"]) {
           setLoginData(response.data.admin);
+          Cookies.set("userId", response.data.admin.id)
           navigate("/adminHomePage");
         }
         else if (response.data["user"]) {
           setLoginData(response.data.user);
+          Cookies.set("userId", response.data.user.id)
           navigate("/homePage");
         } else {
           console.log("Invalid email or password");
         }
-       console.log(loginData);
+        console.log(loginData);
       });
 
     reset();
   };
   console.log(loginData);
+
   return (
     <>
       <div className="login-container bg-black text-white min-h-screen flex items-center">

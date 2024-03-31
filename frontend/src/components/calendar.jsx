@@ -13,14 +13,14 @@ import "./calender.css";
 
 function Calendar() {
   const { loginData } = useContext(AppContext);
-  const adminId = loginData.id;  
-  // fetchEvents(adminId)
-  
-  
+  const adminId = loginData
+
+
+
   const fetchEvents = (adminId) => {
     axios.post(`http://localhost:3306/event/${adminId}`).then((response) => {
       setEvents(response);
-    
+
 
     });
   };
@@ -40,7 +40,7 @@ function Calendar() {
     setEvents,
   } = useContext(AppContext);
 
- 
+
 
   const {
     register,
@@ -117,7 +117,7 @@ function Calendar() {
                             id="start"
                             defaultValue={eventInfo.event.start.toLocaleString()}
                             readOnly
-                            // {...register("start")}
+                          // {...register("start")}
                           />
                         </div>
                       </fieldset>

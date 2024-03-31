@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 import Calendar from "../components/calendar";
 import CreatePost from "../components/CreatePost";
 import { AppContext } from "../context/AppContext";
@@ -9,11 +9,19 @@ function AdminHomePage() {
   const navigate = useNavigate();
   const { loginData, setLoginData } = useContext(AppContext);
   useEffect(() => {
-    console.log(loginData.id);
+    const userId = Cookies.get("userId");
+    if (userId) {
+      console.log(`The user id : ${userId}`);
+      setLoginData(userId);
+
+    } else {
+      console.log("User id not found")
+    }
   });
   const handleUsersListClick = () => {
     navigate("/usersList");
   };
+  console.log(loginData)
   return (
     <>
       <div className="admin-home-container h-screen flex items-center justify-center">
