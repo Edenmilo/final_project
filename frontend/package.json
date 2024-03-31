@@ -30,6 +30,7 @@
     "chartjs": "^0.3.24",
     "chartjs-plugin-annotation": "^3.0.1",
     "cloudinary": "^2.0.3",
+    "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
