@@ -44,26 +44,28 @@ export const AppContext = createContext({
   workoutCategory: "",
   setWorkoutCategory: () => { },
   //post
+  exerciseId: [],
+  setExerciseId: () => { },
   vidUrl: "",
   setVidUrl: () => { },
   imageUrl: "",
   setImageUrl: () => { },
-  postName: "",
-  setPostName: () => { },
-  postCategory: "",
-  setPostCategory: () => { },
-  postDuration: "",
-  setPostDuration: () => { },
-  postCalorie: "",
-  setPostCalorie: () => { },
-  postSets: "",
-  setPostSets: () => { },
-  postRepeat: "",
-  setPostRepeat: () => { },
-  postRest: "",
-  setPostRest: () => { },
-  postContent: "",
-  setPostContent: () => { },
+  // postName: "",
+  // setPostName: () => { },
+  // postCategory: "",
+  // setPostCategory: () => { },
+  // postDuration: "",
+  // setPostDuration: () => { },
+  // postCalorie: "",
+  // setPostCalorie: () => { },
+  // postSets: "",
+  // setPostSets: () => { },
+  // postRepeat: "",
+  // setPostRepeat: () => { },
+  // postRest: "",
+  // setPostRest: () => { },
+  // postContent: "",
+  // setPostContent: () => { },
 });
 
 export const ContextProvider = ({ children }) => {
@@ -91,16 +93,17 @@ export const ContextProvider = ({ children }) => {
   const [workoutData, setWorkoutData] = useState([]);
   const [workoutCategory, setWorkoutCategory] = useState("");
   //post
+  const [exerciseId, setExerciseId] = useState([]);
   const [vidUrl, setVidUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [postName, setPostName] = useState("");
-  const [postCategory, setPostCategory] = useState("");
-  const [postDuration, setPostDuration] = useState("");
-  const [postCalorie, setPostCalorie] = useState("");
-  const [postSets, setPostSets] = useState("");
-  const [postRepeat, setPostRepeat] = useState("");
-  const [postRest, setPostRest] = useState("");
-  const [postContent, setPostContent] = useState("");
+  // const [postName, setPostName] = useState("");
+  // const [postCategory, setPostCategory] = useState("");
+  // const [postDuration, setPostDuration] = useState("");
+  // const [postCalorie, setPostCalorie] = useState("");
+  // const [postSets, setPostSets] = useState("");
+  // const [postRepeat, setPostRepeat] = useState("");
+  // const [postRest, setPostRest] = useState("");
+  // const [postContent, setPostContent] = useState("");
 
   const contextValue = {
     //login
@@ -146,26 +149,28 @@ export const ContextProvider = ({ children }) => {
     workoutCategory,
     setWorkoutCategory,
     //post
+    exerciseId,
+    setExerciseId,
     vidUrl,
     setVidUrl,
     imageUrl,
     setImageUrl,
-    postName,
-    setPostName,
-    postCategory,
-    setPostCategory,
-    postDuration,
-    setPostDuration,
-    postCalorie,
-    setPostCalorie,
-    postSets,
-    setPostSets,
-    postRepeat,
-    setPostRepeat,
-    postRest,
-    setPostRest,
-    postContent,
-    setPostContent,
+    // postName,
+    // setPostName,
+    // postCategory,
+    // setPostCategory,
+    // postDuration,
+    // setPostDuration,
+    // postCalorie,
+    // setPostCalorie,
+    // postSets,
+    // setPostSets,
+    // postRepeat,
+    // setPostRepeat,
+    // postRest,
+    // setPostRest,
+    // postContent,
+    // setPostContent,
   };
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>

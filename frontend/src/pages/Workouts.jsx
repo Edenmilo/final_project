@@ -1,31 +1,42 @@
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 function Workouts() {
-  const { workoutData, setWorkoutData, workoutCategory } =
+  const { workoutData, setWorkoutData, workoutCategory, exerciseId, setExerciseId } =
     useContext(AppContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const correctExercises = workoutData
       .filter((workout) => workout.workoutType === workoutCategory)
-      .flatMap((workout) => Object.values(workout.exercises));
-
     setWorkoutData(correctExercises);
+
   }, [workoutCategory]);
+  console.log(workoutData)
+  console.log(exerciseId)
+
+  const handelExercise = (id) => {
+    setExerciseId(id)
+    navigate("/social/workouts/exercises")
+  }
+
+
+
+
 
   ////////////////////////////////////////////////////////////////////////////////////////
-  const ExerciseCard = ({ src, name, level, expertise, experience, alt }) => (
+  const ExerciseCard = ({ workoutImg
+    , workoutName, id }) => (
     <div className="exercise-card bg-gray-50 flex items-center justify-evenly gap-[1rem] w-[95%] p-[3px] mt-[3vh] rounded-[10px] phone:w-[90%]">
       <div className="exercise-content w-[100%] flex flex-row items-center justify-center">
         <div className="exercise-image">
           <img
             loading="lazy"
-            src={src}
-            alt={alt}
+            src={workoutImg
+            }
             className="w-[5rem] h-auto p-[5px] rounded-full aspect-square "
           />
         </div>
@@ -33,25 +44,16 @@ function Workouts() {
           <div className=" exercise-main-content w-[100%] flex flex-col self-start">
             <div className="flex items-center justify-center gap-[1vw] phone:gap-[3vw]">
               <div className="exercise-name whitespace-nowrap font-semibold text-white text-[0.8rem] phone:text-[2rem]">
-                {name}
+                {workoutName}
               </div>
               <div className="flex flex-col justify-center my-auto  font-bold leading-3 text-center text-black">
-                <div className="justify-center bg-neon-50 px-2 text-black-50 rounded text-[0.4rem] self-end">
-                  {" "}
-                  {level}{" "}
-                </div>
+
               </div>
             </div>
-            <div className="mt-[1vh] text-[0.5rem] text-neon-50 phone:text-[1rem] ">
-              {" "}
-              {expertise}{" "}
-            </div>
-            <div className="text-[0.5rem] leading-3 text-neon-50 phone:text-[1rem] mb-[1vh]">
-              {" "}
-              {experience} experience{" "}
-            </div>
+
           </div>
-          <button className="arrow-button self-center">
+          <button className="arrow-button self-center" onClick={() => handelExercise(id)} >
+
             <ArrowForwardIcon sx={{ fontSize: 15 }} />
           </button>
         </div>
@@ -79,11 +81,8 @@ function Workouts() {
               </h2>
             </header>
             <section className="workout-section  flex flex-col items-center justify-center phone:w-screen phone:h-full phone:justify-start  ">
-              {/* {exercise.map((exercise, index) => (
-                <ExerciseCard key={index} {...exercise} />
-              ))} */}
               {workoutData.map((exercise, index) => (
-                <ExerciseCard key={index} {...exercise} />
+                <ExerciseCard key={index} workoutImg={exercise.workoutImg} workoutName={exercise.workoutName} id={exercise.id} />
               ))}
             </section>
           </div>
