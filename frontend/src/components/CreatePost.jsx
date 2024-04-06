@@ -11,17 +11,9 @@ function CreatePost() {
     setVidUrl,
     imageUrl,
     setImageUrl,
-    setPostName,
-    setPostCategory,
-    setPostDuration,
-    setPostCalorie,
-    setPostSets,
-    setPostRepeat,
-    setPostRest,
-    setPostContent
   } = useContext(AppContext);
 
-  const admin = 1 // fake admin till the git push 
+
   const [open, setOpen] = useState(false)
   const {
     register,
@@ -53,16 +45,7 @@ function CreatePost() {
 
     setImageUrl(uploadedImageUrl);
     setVidUrl(uploadedVideoUrl);
-    setPostName(data.exerciseName);
-    setPostCategory(data.category)
-    setPostDuration(data.category)
-    setPostCategory(data.category)
-    setPostDuration(data.duration);
-    setPostCalorie(data.calories);
-    setPostSets(data.sets);
-    setPostRepeat(data.repeat);
-    setPostRest(data.rest);
-    setPostContent(data.content);
+
 
 
     console.log("Image URL:", uploadedImageUrl);
@@ -84,7 +67,7 @@ function CreatePost() {
         rest: data.rest,
         content: data.content
       }],
-      createdBy: admin
+      createdBy: loginData
     };
 
     try {
@@ -121,6 +104,7 @@ function CreatePost() {
                   <Dialog.Close asChild className="self-start">
                     <Cross2Icon />
                   </Dialog.Close>
+                  <label className="mr-[40%] text-neon-50">Image</label>
                   <input
                     className="create-post-input w-[70%] border-b bg-gray-50 border-neon-50 focus:outline-none"
                     placeholder="Upload Image"
@@ -128,6 +112,7 @@ function CreatePost() {
                     {...register("image")}
                   />
                   {imageUrl && <img src={imageUrl} alt="Uploaded Image" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
+                  <label className="mr-[40%] text-neon-50">Video</label>
                   <input
                     className="create-post-input w-[70%] border-b bg-gray-50 border-neon-50 focus:outline-none"
                     placeholder="Upload Video"
@@ -147,16 +132,24 @@ function CreatePost() {
                     type="text"
                     {...register("exerciseName")}
                   />
-                  <input
-                    className="create-post-input w-[70%] border-b  border-neon-50 text-white-50 bg-gray-50 focus:outline-none"
-                    placeholder=" Category"
-                    type="string"
+                  <select
+                    className="create-post-input w-[70%] border-b border-neon-50 text-white-50 bg-gray-50 focus:outline-none"
                     {...register("category")}
-                  />
+                  >
+                    <option value="Chest">Chest</option>
+                    <option value="Lats">Lats</option>
+                    <option value="Abs">Abs</option>
+                    <option value="Legs">Legs</option>
+                    <option value="Deltoid">Deltoid</option>
+                    <option value="Biceps">Biceps</option>
+                    <option value="Triceps">Triceps</option>
+                    <option value="Full Body">Full Body</option>
+                  </select>
+
                   <input
                     className="create-post-input w-[70%] border-b  border-neon-50 text-white-50 bg-gray-50 focus:outline-none"
                     placeholder="Duration"
-                    type="string"
+                    type="number"
                     {...register("duration")}
                   />
                   <input
