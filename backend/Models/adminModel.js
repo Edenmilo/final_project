@@ -30,8 +30,8 @@ const Admin = sequelize.define("Admin", {
 
 const Event = sequelize.define("Event", {
   title: DataTypes.STRING,
-  startTime: DataTypes.DATE,
-  finishTime: DataTypes.DATE,
+  start: DataTypes.DATE,
+  end: DataTypes.DATE,
   studentsLimit: DataTypes.INTEGER,
   summary: DataTypes.TEXT,
   createdBy: {
