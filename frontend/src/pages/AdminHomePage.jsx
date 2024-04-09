@@ -11,7 +11,7 @@ function AdminHomePage() {
   useEffect(() => {
     const userId = Cookies.get("userId");
     if (userId) {
-      console.log(`The user id : ${userId}`);
+      console.log(userId);
       setLoginData(userId);
 
     } else {
