@@ -6,18 +6,17 @@ function UsersList() {
   const [users, setUsers] = useState([]);
   const [searchedUser, setSearchedUser] = useState("");
 
+  const fetchUsersForAdmin = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3306/admin/adminusers"
+      );
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users for admin:", error);
+    }
+  };
   useEffect(() => {
-    const fetchUsersForAdmin = async () => {
-      try {
-        const response = await axios.post(
-          "http://localhost:3306/admin/adminusers"
-        );
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users for admin:", error);
-      }
-    };
-
     fetchUsersForAdmin();
   }, []);
 
@@ -109,7 +108,7 @@ function UsersList() {
                     ))}
               </ul>
             </div>
-            <CreateUser />
+            <CreateUser fetchUsersForAdmin={fetchUsersForAdmin} />
           </div>
         </div>
       </div>
