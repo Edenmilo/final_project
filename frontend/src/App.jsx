@@ -2,20 +2,42 @@ import "./App.css";
 import Social from "./pages/Social";
 import Workouts from "./pages/Workouts";
 import { ContextProvider } from "./context/AppContext";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Remove useNavigate import
 import Login from "./pages/Login";
 import AdminHomePage from "./pages/AdminHomePage";
 import UsersList from "./pages/UsersList";
 import Exercises from "./pages/Exercises";
 import HomePage from "./pages/HomePage";
 import UserInfo from "./pages/userInfo";
+import { useEffect, useState } from "react";
+import { clearCookie, getCookie, setCookie } from "./cookieHelper";
 
 function App() {
+  const [authId, setAuthId] = useState(getCookie('userId') || null);
+
+  useEffect(() => {
+    if (authId) {
+      setCookie('userId', authId);
+    }
+  }, [authId]);
+
+  function handleLogOut() {
+    clearCookie('authToken');
+    clearCookie('userId');
+    window.location.href = '/'; // Redirect to the home page
+  }
+
   return (
     <>
       <ContextProvider>
+<<<<<<< HEAD
+        <BrowserRouter> {/* Wrap the App component inside BrowserRouter */}
+          <button onClick={handleLogOut}>log out</button>
+          <Routes>
+=======
         <BrowserRouter>
           <Routes> 
+>>>>>>> e3ad4af5efed39314a1d0f35145440090369528e
             <Route path="/adminHomePage" element={<AdminHomePage />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/" element={<Login />} />

@@ -4,6 +4,7 @@ import { AppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { setCookie } from "../cookieHelper";
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -29,11 +30,18 @@ function Login() {
           setLoginData(response.data.admin);
           Cookies.set("userId", response.data.admin.id)
           navigate("/adminHomePage");
+          const adminId=response.data["admin"]["id"]
+          setCookie('userId',adminId)
         }
         else if (response.data["user"]) {
+<<<<<<< HEAD
+=======
           setLoginData(response.data.user);
           Cookies.set("userId", response.data.user.id)
+>>>>>>> e3ad4af5efed39314a1d0f35145440090369528e
           navigate("/homePage");
+          const userId=response.data["user"]["id"]
+          setCookie('userId',userId)
         } else {
           console.log("Invalid email or password");
         }
