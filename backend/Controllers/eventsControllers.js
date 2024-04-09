@@ -3,21 +3,21 @@ const User = require("../Models/userModel");
 
 exports.createEvent = async (req, res) => {
   try {
-    const { title, startTime, finishTime, studentsLimit, summary, createdBy } = req.body;
+    const { title, start, end, studentsLimit, summary, createdBy } = req.body;
 
     const adminExists = await Admin.findByPk(createdBy);
     if (!adminExists) {
       return res.status(404).json({ error: "Admin not found" });
     }
-   const adminId= adminExists.id
+    const adminId = adminExists.id;
 
     const event = await Event.create({
       title,
-      startTime,
-      finishTime,
+      start, //change the event values because the FullCalendar
+      end,
       studentsLimit,
       summary,
-      createdBy: adminId 
+      createdBy: adminId,
     });
 
     res.status(201).json(event);
@@ -86,8 +86,8 @@ exports.fillEventWithUser = async (req, res) => {
     }
 
     const userInEvent = await EventUser.create({
-      UserId: user.id,  
-      EventId: event.id, 
+      UserId: user.id,
+      EventId: event.id,
     });
 
     res.status(200).json(userInEvent);
@@ -105,7 +105,7 @@ exports.getUsersInEvent = async (req, res) => {
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
     }
-    
+
     const eventUsers = await EventUser.findAll({ where: { EventId: eventId } });
 
     const usersIn = eventUsers.map((eventUser) => eventUser.UserId);
@@ -116,4 +116,3 @@ exports.getUsersInEvent = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
