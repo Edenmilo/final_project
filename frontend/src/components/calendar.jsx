@@ -10,23 +10,20 @@ import AddEvent from "./AddEvent";
 // import EditEvent from "./EditEvent";
 
 function Calendar() {
+  const { events, loginData, setEvents } = useContext(AppContext);
 
-  // const fetchEvents = (adminId) => {
-  //   axios.post(`http://localhost:3306/event/${adminId}`).then((response) => {
-  //     setEvents(response);
-  //   });
-  // };
-  const { events, loginData } = useContext(AppContext);
-  const adminId = loginData
-  console.log(adminId);
-  console.log(events)
+  // useEffect(() => {
 
-  // function renderEventContent(eventInfo) {
+  //   receiveEvents()
+  // }, [])
 
-  //   return (
-  //     <EditEvent eventInfo={eventInfo} />
-  //   );
-  // }
+
+  // // function renderEventContent(eventInfo) {
+
+  // //   return (
+  // //     <EditEvent eventInfo={eventInfo} />
+  // //   );
+  // // }
 
   return (
     <>

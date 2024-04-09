@@ -4,24 +4,39 @@ import Cookies from "js-cookie";
 import Calendar from "../components/calendar";
 import CreatePost from "../components/CreatePost";
 import { AppContext } from "../context/AppContext";
+import axios from "axios"
 
 function AdminHomePage() {
   const navigate = useNavigate();
-  const { loginData, setLoginData } = useContext(AppContext);
+  const { loginData, setLoginData, setEvents } = useContext(AppContext);
   useEffect(() => {
     const userId = Cookies.get("userId");
     if (userId) {
       console.log(userId);
       setLoginData(userId);
+      console.log(typeof (loginData))
+      const receiveEvents = async () => {
+        try {
+          console.log(loginData)
+          console.log(typeof (loginData));
 
+          const res = await axios.get(`http://localhost:3306/event/${userId}`)
+          console.log(res.data)
+          setEvents(res.data)
+        } catch (error) {
+          console.error("Error receiving events:", error)
+        }
+      }
+      receiveEvents()
     } else {
       console.log("User id not found")
     }
-  });
+
+  }, []);
+
   const handleUsersListClick = () => {
     navigate("/usersList");
   };
-  console.log(loginData)
   return (
     <>
       <div className="admin-home-container h-screen flex items-center justify-center">

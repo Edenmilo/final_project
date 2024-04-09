@@ -14,19 +14,6 @@ function AddEvent() {
     } = useForm();
     const { setEvents, loginData } = useContext(AppContext);
 
-    useEffect(() => {
-        const receiveEvents = async () => {
-            try {
-                const res = await axios.get(`http://localhost:3306/event/${loginData}`)
-                console.log(res.data)
-            } catch (error) {
-                console.error("Error receiving events:", error)
-            }
-        }
-        receiveEvents()
-    }, [])
-
-
     const onSubmit = async (data) => {
         const newEvent = {
             title: data.title,
