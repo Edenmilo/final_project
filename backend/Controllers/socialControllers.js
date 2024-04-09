@@ -1,24 +1,40 @@
 const Social = require('../Models/socialModel');
 
- exports.createPost = async (req, res) => {
-    try {
-      const { workoutImg, workoutName, workoutType, exercises,createdBy } = req.body; // Assuming req.user contains the logged-in admin's information
-  
-      // Create the post
-      const post = await Social.create({ 
-        workoutImg, 
-        workoutName, 
-        workoutType, 
-        exercises,
-        createdBy // Set createdBy field with the admin's ID
+exports.createPost = async (req, res) => {
+  try {
+    const { workoutImg, workoutName, workoutType, exercises, createdBy } = req.body; // Assuming req.user contains the logged-in admin's information
+    // Create the post
+    
+    const post = await Social.create({ 
+      workoutImg, 
+      workoutName, 
+      workoutType, 
+      exercises,
+      createdBy // Set createdBy field with the admin's ID
+    });
+
+    // Parse exercises JSON
+    const exercisesJSON = post.exercises;
+    const parsedExercises = JSON.parse(exercisesJSON);
+
+    // Iterate over each exercise object and log its details
+    parsedExercises.forEach((exercise, index) => {
+      console.log(`Exercise ${index + 1}:`);
+      // Access the keys of each exercise object and log them
+      Object.keys(exercise).forEach((key) => {
+        console.log(`${key}: ${exercise[key]}`);
       });
-  
-      res.status(201).json(post);
-    } catch (error) {
-      console.error('Error creating post:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
+      console.log(); // Add an empty line for clarity
+    });
+
+    // Return both post and exercises in the response
+    res.status(201).json({ post, exercises: parsedExercises });
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
   exports.getPostById = async (req, res) => {
     try {
         const postId = req.params.socialId;
