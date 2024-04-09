@@ -30,9 +30,14 @@ function App() {
   return (
     <>
       <ContextProvider>
+<<<<<<< HEAD
         <BrowserRouter> {/* Wrap the App component inside BrowserRouter */}
           <button onClick={handleLogOut}>log out</button>
           <Routes>
+=======
+        <BrowserRouter>
+          <Routes> 
+>>>>>>> e3ad4af5efed39314a1d0f35145440090369528e
             <Route path="/adminHomePage" element={<AdminHomePage />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/" element={<Login />} />
