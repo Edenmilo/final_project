@@ -2,28 +2,66 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list"
-import React, { useContext, useEffect } from "react";
-import axios from "axios";
+import interactionPlugin from '@fullcalendar/interaction'
+import React, { useContext, useEffect, useState, useRef } from "react";
+import * as Popover from "@radix-ui/react-popover";
 import { AppContext } from "../context/AppContext";
 import "./calender.css";
+import { useForm } from "react-hook-form";
 import AddEvent from "./AddEvent";
-// import EditEvent from "./EditEvent";
+import EditEvent from "./EditEvent";
+import axios from "axios"
+import { Dialog } from "@radix-ui/react-dialog";
+
+
 
 function Calendar() {
-  const { events, loginData, setEvents } = useContext(AppContext);
+  const { events, setIsOpen, setEditEvent, editEvent, loginData, setEvents, setLoginData } = useContext(AppContext);
 
-  // useEffect(() => {
+  const renderEventContent = (eventInfo) => {
+    return (
+      <>
+        {eventInfo.event._def.title}
+      </>
+    )
+  }
+  const initialDateFormat = (initialDateStr) => {
+    if (initialDateStr) {
+      const formattedDate = initialDateStr.slice(0, -6);
+      console.log(formattedDate)
+      return (formattedDate)
+    } else {
+      console.log("Invalid date format")
+    }
 
-  //   receiveEvents()
-  // }, [])
 
+  }
 
-  // // function renderEventContent(eventInfo) {
+  const handelEventClick = async (eventClickInfo) => {
+    console.log(eventClickInfo)
+    setIsOpen(true)
+    setEditEvent(
+      {
+        id: eventClickInfo.event._def.publicId,
+        title: eventClickInfo.event.title,
+        start: initialDateFormat(eventClickInfo.event.startStr),
+        end: initialDateFormat(eventClickInfo.event.endStr),
+        studentsLimit: eventClickInfo.event._def.extendedProps.studentsLimit,
+        summary: eventClickInfo.event._def.extendedProps.summary
 
-  // //   return (
-  // //     <EditEvent eventInfo={eventInfo} />
-  // //   );
-  // // }
+      }
+    )
+    const eventId = eventClickInfo.event._def.publicId
+    console.log(eventId)
+    try {
+      const res = await axios.get(`http://localhost:3306/event/getEvent/${eventId}`)
+      setEditEvent(res.data.event)
+      console.log(res.data.event)
+
+    } catch (error) {
+      console.error("Error deleting event", error)
+    }
+  }
 
   return (
     <>
@@ -35,7 +73,7 @@ function Calendar() {
           <div className="calender-box mb-[5vh]">
             <FullCalendar
               events={events}
-              plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+              plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
               initialView="dayGridMonth"
               slotDuration="01:00:00"
               slotMinTime="05:00:00"
@@ -44,7 +82,12 @@ function Calendar() {
                 center: "",
                 end: "dayGridMonth,timeGridWeek,timeGridDay,listWeek,listMonth,listDay",
               }}
-              // eventContent={renderEventContent}
+
+              eventContent={renderEventContent}
+              eventClick={handelEventClick}
+              editable={true}
+              selectable={true}
+              // eventDidMount={eventPopOver}
               businessHours={[
                 {
                   daysOfWeek: [0, 1, 2, 3, 4, 5],
@@ -58,8 +101,13 @@ function Calendar() {
                 },
               ]}
             />
+
           </div>
+          <EditEvent />
           <AddEvent />
+
+          {/* <EditEvent /> */}
+
         </div>
 
       </div>

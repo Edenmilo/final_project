@@ -17,6 +17,10 @@ export const AppContext = createContext({
   setSummary: () => { },
   events: [],
   setEvents: () => { },
+  isOpen: false,
+  setIsOpen: () => { },
+  editEvent: "",
+  setEditEvent: () => { },
   //create users
   fullName: "",
   setFullName: () => { },
@@ -78,6 +82,8 @@ export const ContextProvider = ({ children }) => {
   const [studentsLimit, setStudentsLimit] = useState("");
   const [summary, setSummary] = useState("");
   const [events, setEvents] = useState([]);
+  const [isOpen, setIsOpen] = useState(false)
+  const [editEvent, setEditEvent] = useState("");
   //create users
   const [fullName, setFullName] = useState("");
   const [userName, setUserName] = useState("");
@@ -122,6 +128,10 @@ export const ContextProvider = ({ children }) => {
     setSummary,
     events,
     setEvents,
+    isOpen,
+    setIsOpen,
+    editEvent,
+    setEditEvent,
     //create users
     fullName,
     setFullName,
