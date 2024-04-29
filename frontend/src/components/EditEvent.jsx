@@ -21,9 +21,7 @@ function EditEvent() {
         editEvent,
         setEditEvent
     } = useContext(AppContext);
-    useEffect(() => {
-        console.log("render form")
-    }, [editEvent])
+
 
     const dateFormat = (dateStr) => {
         if (editEvent.start !== undefined) {
@@ -78,6 +76,9 @@ function EditEvent() {
         }
         setIsOpen(false)
     };
+    // useEffect(() => {
+    //     console.log("render form")
+    // }, [])
     const today = new Date();
     const todayFormat = today.toLocaleDateString();
 
