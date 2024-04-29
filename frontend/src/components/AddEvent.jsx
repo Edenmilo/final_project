@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Cross2Icon } from "@radix-ui/react-icons"
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
@@ -12,7 +12,7 @@ function AddEvent() {
         formState: { errors },
         reset,
     } = useForm();
-    const { setEvents, loginData } = useContext(AppContext);
+    const { setEvents, loginData, events, setEditEvent } = useContext(AppContext);
 
     const onSubmit = async (data) => {
         const newEvent = {
@@ -27,7 +27,7 @@ function AddEvent() {
             const res = await axios.post("http://localhost:3306/event/create", newEvent);
             const responseData = res.data;
             console.log(responseData)
-            setEvents((prevEvents) => [...prevEvents, newEvent]);
+            setEvents((prevEvents) => [...prevEvents, responseData]);
             console.log(newEvent);
 
         } catch (error) {
@@ -35,14 +35,13 @@ function AddEvent() {
         }
         reset();
     };
-
     const today = new Date();
     const todayFormat = today.toLocaleDateString();
 
     return (
         <>
             <div>
-                <Dialog.Root onOpenChange={handleSubmit(onSubmit)}>
+                <Dialog.Root onOpenChange={handleSubmit(onSubmit)} >
                     <Dialog.Trigger asChild>
                         <div className="add-event-radix-button h-[15vh] w-[90%] m-auto mt-[2vh]">
                             <button className="shadow-white-50 text-black-50  m-auto text-[0.8rem] w-[40%] h-[50%] p-[1rem] flex items-center justify-center mb-[1vh] rounded-[4px] text-nowrap bg-neon-50 font-medium leading-none  focus:outline-none">
@@ -69,7 +68,7 @@ function AddEvent() {
                                         className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center text-[0.7rem] border-b bg-gray-50 border-neon-50 focus:outline-none"
                                         id="title"
                                         placeholder="  Title"
-                                        {...register("title", { min: 3, max: 12 })}
+                                        {...register("title", { min: 3, max: 12, required: true })}
                                     />
                                     {errors.title && <span>title require</span>}
 
@@ -100,7 +99,7 @@ function AddEvent() {
                                                     id="end"
                                                     placeholder="Workout Ends At:"
                                                     type="datetime-local"
-                                                    {...register("end", { min: todayFormat, max: 12 })}
+                                                    {...register("end")}
                                                 />
                                             </label>
                                         </div>
@@ -122,21 +121,21 @@ function AddEvent() {
                                 </div>
                                 <div className="mt-[4vh] flex justify-end">
                                     <Dialog.Close asChild>
-                                        <button
+                                        <span
                                             type="submit"
-                                            className="bg-neon-50 text-black-50 flex h-[5vh] items-center justify-center rounded-[1rem] px-[0.7rem] font-medium"
+                                            className="bg-neon-50 text-black-50 flex h-[5vh] items-center justify-center rounded-[1rem] px-[0.7rem] font-medium cursor-pointer"
                                         >
                                             Save changes
-                                        </button>
+                                        </span>
                                     </Dialog.Close>
                                 </div>
                                 <Dialog.Close asChild>
-                                    <button
-                                        className="text-black-50 hover:bg-violet4 focus:shadow-black-50 absolute top-[10px] right-[10px] flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full"
+                                    <span
+                                        className="text-black-50 hover:bg-violet4 focus:shadow-black-50 absolute top-[10px] right-[10px] flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full cursor-pointer"
                                         aria-label="Close"
                                     >
                                         <Cross2Icon />
-                                    </button>
+                                    </span>
                                 </Dialog.Close>
                             </form>
                         </Dialog.Content>

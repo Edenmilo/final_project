@@ -30,15 +30,19 @@ function Login() {
           setLoginData(response.data.admin);
           Cookies.set("userId", response.data.admin.id)
           navigate("/adminHomePage");
+          
           const adminId = response.data["admin"]["id"]
           setCookie('userId', adminId)
         }
         else if (response.data["user"]) {
           setLoginData(response.data.user);
           Cookies.set("userId", response.data.user.id)
+
           navigate("/homePage");
+
           const userId = response.data["user"]["id"]
           setCookie('userId', userId)
+
         } else {
           console.log("Invalid email or password");
         }
