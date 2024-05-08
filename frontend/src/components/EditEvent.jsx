@@ -22,6 +22,9 @@ function EditEvent() {
         setEditEvent
     } = useContext(AppContext);
 
+    // useEffect(() => {
+    //     console.log("render form")
+    // }, [editEvent])
 
     const dateFormat = (dateStr) => {
         if (editEvent.start !== undefined) {
@@ -82,14 +85,11 @@ function EditEvent() {
     const today = new Date();
     const todayFormat = today.toLocaleDateString();
 
-
-
-
     return (
         <>
             <div className="event-container w-full h-full relative ">
                 <div className=" event-container w-full h-full relative ">
-                    <Popover.Root open={isOpen}>
+                    <Popover.Root open={isOpen} onOpenChange={() => handleSubmit(onSubmit)}>
                         <Popover.Trigger asChild>
                             <button
                                 className="w-full h-full flex items-center justify-center text-[0.7rem]  cursor-pointer outline-none"

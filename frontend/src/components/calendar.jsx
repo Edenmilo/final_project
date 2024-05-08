@@ -52,14 +52,14 @@ function Calendar() {
       }
     )
     const eventId = eventClickInfo.event._def.publicId
-    console.log(eventId)
+    // console.log(eventId)
     try {
       const res = await axios.get(`http://localhost:3306/event/getEvent/${eventId}`)
-      setEditEvent(res.data.event)
+      // setEditEvent(res.data.event)
       console.log(res.data.event)
 
     } catch (error) {
-      console.error("Error deleting event", error)
+      console.error("Error fetch event", error)
     }
   }
 
