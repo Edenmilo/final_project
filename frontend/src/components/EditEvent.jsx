@@ -79,6 +79,9 @@ function EditEvent() {
         }
         setIsOpen(false)
     };
+    // useEffect(() => {
+    //     console.log("render form")
+    // }, [])
     const today = new Date();
     const todayFormat = today.toLocaleDateString();
 
