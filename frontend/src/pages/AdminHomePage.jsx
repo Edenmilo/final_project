@@ -5,21 +5,21 @@ import CreatePost from "../components/CreatePost";
 import { AppContext } from "../context/AppContext";
 import Cookies from "js-cookie";
 import axios from "axios"
-import EditEvent from "../components/EditEvent";
 
 function AdminHomePage() {
+
   const navigate = useNavigate();
+
   const { events, setLoginData, setEvents, loginData, editEvent, isOpen } = useContext(AppContext);
 
   const userId = Cookies.get("userId");
+
   const receiveEvents = async () => {
     if (events || events.length > 0) {
       try {
-        console.log(loginData)
-        // console.log(typeof (loginData));
-
+        // console.log(loginData)
         const res = await axios.get(`http://localhost:3306/event/${userId}`)
-        console.log(res.data)
+        // console.log(res.data)
         setEvents(res.data)
       } catch (error) {
         console.error("Error receiving events:", error)
@@ -27,12 +27,12 @@ function AdminHomePage() {
     } else {
       console.log("The user not have events")
     }
-
   }
+
   useEffect(() => {
     setLoginData(userId);
     receiveEvents()
-  }, [isOpen]);
+  }, []);
 
   return (
     <>

@@ -33,7 +33,7 @@ function Exercises() {
   const { workoutName, workoutType } = exerciseData
   const { calories, content, duration, repeat, rest, sets, vidUrl } = exerciseDetails;
   const url = vidUrl
-  console.log(vidUrl)
+  console.log(url)
 
   const WorkoutStat = ({ iconSrc, altText, label }) => (
     <div className="flex bg-gray-50 rounded-[50px] p-[3px]">
