@@ -41,7 +41,7 @@ function UsersList() {
                 value={searchedUser}
                 onChange={(e) => setSearchedUser(e.target.value)}
                 placeholder="Search for students..."
-                className="searched-users-input w-[90%] h-[8vh] rounded-[10px] indent-[10px]"
+                className="searched-users-input w-[90%] h-[8vh] rounded-[10px] indent-[10px] text-black-50"
               />
             </header>
             <hr className="hr-costume text-neon-50" />
@@ -108,6 +108,7 @@ function UsersList() {
                     ))}
               </ul>
             </div>
+            <button>AddUser</button>
             <CreateUser fetchUsersForAdmin={fetchUsersForAdmin} />
           </div>
         </div>

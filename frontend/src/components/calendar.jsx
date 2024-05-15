@@ -12,12 +12,13 @@ import AddEvent from "./AddEvent";
 import EditEvent from "./EditEvent";
 import axios from "axios"
 import { Dialog } from "@radix-ui/react-dialog";
+import Cookies from "js-cookie";
 
 
 
 function Calendar() {
   const { events, setIsOpen, setEditEvent, editEvent, loginData, setEvents, setLoginData } = useContext(AppContext);
-
+  let userId = Cookies.get("userId");
   const renderEventContent = (eventInfo) => {
     return (
       <>
@@ -67,7 +68,7 @@ function Calendar() {
     <>
       <div className="calendar-container w-full flex flex-col items-center mt-[3%]">
         <h2 className="admin-home-page-header p-[5%] text-[2.2rem] text-neon-50">
-          Admin Home page
+          hello {userId}
         </h2>
         <div className="FullCalender-section w-[90%] h-auto bg-gray-50 rounded-[5%]">
           <div className="calender-box mb-[5vh]">

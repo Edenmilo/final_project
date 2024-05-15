@@ -67,10 +67,10 @@ function AddEvent() {
                                     <input
                                         className="text-white-50 shadow-black-50 flex h-[5vh] w-[80%] items-center justify-center text-[0.7rem] border-b bg-gray-50 border-neon-50 focus:outline-none"
                                         id="title"
-                                        placeholder="  Title"
+                                        placeholder="  Title- require"
                                         {...register("title", { min: 3, max: 12, required: true })}
                                     />
-                                    {errors.title && <span>title require</span>}
+                                    {/* {errors.title && <span>title require</span>} */}
 
                                     <div className="start-end-event-inputs w-full flex items-center justify-evenly">
                                         <div className="start-input-box">
